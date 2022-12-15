@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom'
 //   CRow,
 // } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+// import { Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import { useForm, Controller } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
@@ -22,15 +23,25 @@ import { useDispatch, useSelector } from 'react-redux'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import { signUpSchema } from '../../../../src/constants/schemaValidation'
-const defaultValue = {
+import { signUpSchema, signInSchema } from '../../../../src/constants/schemaValidation'
+import Alert from '@mui/material/Alert'
+import Stack from '@mui/material/Stack'
+
+const initialValuesRegister = {
   email: '',
   password: '',
   name: '',
   username: '',
   confirm_password: '',
 }
-
+const initialValuesSignIn = {
+  email: '',
+  password: '',
+}
+const test = {
+  email: 'sudhigupta190@gmail.com',
+  password: 'abhi@123',
+}
 // const Login = () => {
 //   return (
 //     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
@@ -105,31 +116,55 @@ const Login = () => {
   //   defaultValue,
   //   resolver: yupResolver(validate),
   // })
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
-    initialValues: defaultValue,
-    validationSchema: signUpSchema,
-    onSubmit: (values, action) => {
-      // console.log('🚀 ~ file: Registration.jsx ~ line 11 ~ Registration ~ values', values)
-      action.resetForm()
-    },
-  })
-  // console.log('🚀 ~ file: Registration.jsx ~ line 25 ~ Registration ~ errors', errors)
-  const [value, setValue] = useState({})
+  const [signIn, setSignIn] = useState(false)
+  const [curr, setCurr] = useState(false)
   const Email = useSelector((state) => state.email)
   const [currStatus, setCurrStatus] = useState('')
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+    initialValues: !curr ? initialValuesSignIn : initialValuesRegister,
+    validationSchema: !curr ? signInSchema : signUpSchema,
+    onSubmit: (values, action) => {
+      if (values.email === test.email && values.password === test.password && !curr) {
+        // setValue(values)
+        handleSubmission(values)
+      } else {
+        setSignIn(false)
+      }
+      // console.log(values)
+
+      if (curr) {
+        // setValue(values)
+        handleSubmission(values)
+        action.resetForm()
+      } else {
+        // setValue(false)
+      }
+    },
+  })
   const handleSubmissionUser = (data) => {
-    setValue(data)
-    dispatch({
-      type: 'userAuth',
-      email: data.email,
-    })
-    dispatch({
-      type: 'userAuth',
-      password: data.password,
-    })
+    // setValue(data)
+    // console.log(data)
+    data.preventDefault()
+    if (data.email === test.email && data.password === test.password) {
+      // setValue(true)
+      dispatch({
+        type: 'userAuth',
+        email: data.email,
+      })
+      dispatch({
+        type: 'userAuth',
+        password: data.password,
+      })
+      dispatch({
+        type: 'userAuth',
+        isAuthenticated: true,
+      })
+    } else {
+    }
   }
   const handleSubmissionRegister = (data) => {
-    setValue(data)
+    // setValue(data)
+    data.preventDefault()
     dispatch({
       type: 'register',
       username: data.username,
@@ -150,15 +185,23 @@ const Login = () => {
 
   const handleSubmission = (data) => {
     // setData(data)
+    // console.log('kbjdfkasjgduigh ......')
+    data.preventDefault()
     if (currStatus === 'SignIn') {
       handleSubmissionUser(data)
     } else if (currStatus === 'Register') {
       handleSubmissionRegister(data)
     }
   }
-  console.log(value, 'kshdgfkgh', currStatus)
+  const handleClick = () => {
+    setCurr(!curr)
+    //login = false
+    //signup = true
+  }
+  // console.log(value, 'kshdgfkgh', currStatus, Email)
+  console.log(curr, ' swipe ')
   return (
-    <form onSubmit={(data) => handleSubmit(setValue(data))} className="form">
+    <form onSubmit={() => handleSubmit()} className="form">
       <div className="section">
         <div className="container">
           <div className="row full-height justify-content-center">
@@ -168,7 +211,13 @@ const Login = () => {
                   <span>Log In </span>
                   <span>Sign Up</span>
                 </h6>
-                <input className="checkbox" type="checkbox" id="reg-log" name="reg-log" />
+                <input
+                  className="checkbox"
+                  type="checkbox"
+                  id="reg-log"
+                  name="reg-log"
+                  onChange={() => handleClick()}
+                />
                 <label htmlFor="reg-log"></label>
                 <div className="card-3d-wrap mx-auto">
                   <div className="card-3d-wrapper">
@@ -177,21 +226,6 @@ const Login = () => {
                         <div className="section text-center">
                           <h4 className="mb-4 pb-3">Log In</h4>
                           <div className="form-group">
-                            {/* <Controller
-                              control={control}
-                              name="email"
-                              render={({ field }) => (
-                                <input
-                                  type="email"
-                                  name="logemail"
-                                  className="form-style"
-                                  placeholder="Your Email"
-                                  id="logemail"
-                                  autoComplete="off"
-                                  {...field}
-                                />
-                              )}
-                            /> */}
                             <input
                               type="email"
                               name="email"
@@ -203,6 +237,9 @@ const Login = () => {
                               onChange={handleChange}
                               onBlur={handleBlur}
                             />
+                            {errors.email && touched.email ? (
+                              <p className="form-error">*{errors.email}</p>
+                            ) : null}
 
                             <i className="input-icon uil uil-at"></i>
                           </div>
@@ -216,13 +253,16 @@ const Login = () => {
                               autoComplete="off"
                               value={values.password}
                               onChange={handleChange}
-                              onBlur={() => handleBlur}
+                              onBlur={handleBlur}
                             />
+                            {errors.password && touched.password ? (
+                              <p className="form-error">*{errors.password}</p>
+                            ) : null}
 
                             <i className="input-icon uil uil-lock-alt"></i>
                           </div>
                           <button
-                            href="/"
+                            href="/dashboard"
                             type="submit"
                             className="btn mt-4"
                             onClick={() => setCurrStatus('SignIn')}
@@ -251,8 +291,11 @@ const Login = () => {
                               autoComplete="off"
                               value={values.name}
                               onChange={handleChange}
-                              onBlur={() => handleBlur}
+                              onBlur={handleBlur}
                             />
+                            {errors.name && touched.name ? (
+                              <p className="form-error">*{errors.name}</p>
+                            ) : null}
 
                             <i className="input-icon uil uil-user"></i>
                           </div>
@@ -266,8 +309,11 @@ const Login = () => {
                               autoComplete="off"
                               value={values.email}
                               onChange={handleChange}
-                              onBlur={() => handleBlur}
+                              onBlur={handleBlur}
                             />
+                            {errors.email && touched.email ? (
+                              <p className="form-error">*{errors.email}</p>
+                            ) : null}
 
                             <i className="input-icon uil uil-at"></i>
                           </div>
@@ -281,12 +327,32 @@ const Login = () => {
                               autoComplete="off"
                               value={values.password}
                               onChange={handleChange}
-                              onBlur={() => handleBlur}
+                              onBlur={handleBlur}
                             />
+                            {errors.password && touched.password ? (
+                              <p className="form-error">*{errors.password}</p>
+                            ) : null}
+                            <i className="input-icon uil uil-lock-alt"></i>
+                          </div>
+                          <div className="form-group mt-2">
+                            <input
+                              type="password"
+                              name="confirm_password"
+                              className="form-style"
+                              placeholder="confirm_password"
+                              id="logpass"
+                              autoComplete="off"
+                              value={values.confirm_password}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            />
+                            {errors.confirm_password && touched.confirm_password ? (
+                              <p className="form-error">*{errors.confirm_password}</p>
+                            ) : null}
                             <i className="input-icon uil uil-lock-alt"></i>
                           </div>
                           <button
-                            href="#"
+                            // href="#"
                             className="btn mt-4"
                             type="submit"
                             onClick={() => setCurrStatus('Register')}

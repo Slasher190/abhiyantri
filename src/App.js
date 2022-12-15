@@ -18,11 +18,15 @@ const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
 class App extends Component {
+  
   render() {
     return (
       <HashRouter>
         <Suspense fallback={loading}>
           <Routes>
+            {/* <Route exact path="/" element={isLoggedIn ? <DefaultLayout /> : <Navigate to="/login" />} />
+            <Route path="login" element={!isLoggedIn ? <Login /> : <Navigate to="*" />} /> */}
+
             <Route exact path="/login" name="Login Page" element={<Login />} />
             <Route exact path="/register" name="Register Page" element={<Register />} />
             <Route exact path="/404" name="Page 404" element={<Page404 />} />
@@ -31,7 +35,6 @@ class App extends Component {
           </Routes>
         </Suspense>
       </HashRouter>
-      
     )
   }
 }
