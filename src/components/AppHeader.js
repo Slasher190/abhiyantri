@@ -21,7 +21,8 @@ import { logo } from 'src/assets/brand/logo'
 const AppHeader = () => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
-
+  const userName = useSelector((state) => state.userName)
+  console.log(userName, ' hello Mister')
   return (
     <CHeader position="sticky" className="mb-4">
       <CContainer fluid>
@@ -47,7 +48,7 @@ const AppHeader = () => {
             <CNavLink href="#">Settings</CNavLink>
           </CNavItem>
         </CHeaderNav>
-        <CHeaderNav>
+        {/* <CHeaderNav>
           <CNavItem>
             <CNavLink href="#">
               <CIcon icon={cilBell} size="lg" />
@@ -60,10 +61,12 @@ const AppHeader = () => {
           </CNavItem>
           <CNavItem>
             <CNavLink href="#">
+              <h6>hello </h6>
               <CIcon icon={cilEnvelopeOpen} size="lg" />
             </CNavLink>
           </CNavItem>
-        </CHeaderNav>
+        </CHeaderNav> */}
+        <h6> welcome {userName} !</h6>
         <CHeaderNav className="ms-3">
           <AppHeaderDropdown />
         </CHeaderNav>

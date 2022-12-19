@@ -6,63 +6,92 @@ import { signInSchema } from 'src/constants/schemaValidation'
 import Wrapper from 'src/scss/_registration'
 import { GlobalStyle } from 'src/scss/formStyle'
 import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
+import { CAlert } from '@coreui/react'
 
 const initialValues = {
   email: '',
   password: '',
 }
-const test = {
-  email: 'sudhigupta190@gmail.com',
-  password: 'abhi@123',
-}
 const Registration = () => {
   const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
+  const [responsed, setRespond] = useState(null)
+  const [error1, setError1] = useState('')
+  const [user, setUser] = useState('')
   const sidebarShow = useSelector((state) => state.sidebarShow)
   // const { email, password, isAuthenticated } = useSelector((state) => state.userAuth)
-  const Email = useSelector((state) => state.email)
-  const IsAuthenticated = useSelector((state) => state.isAuthenticated)
+  // const Email = useSelector((state) => state.email)
+  // const Password = useSelector((state) => state.password)
+  // const IsAuthenticated = useSelector((state) => state.isAuthenticated)
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues,
     validationSchema: signInSchema,
     onSubmit: (values, action) => {
       // console.log('hello here the value', values)
-      handleSubmissionUser(values)
-      action.resetForm()
+      LoginRequest(values)
     },
   })
-  // console.log('🚀 ~ file: Registration.jsx ~ line 25 ~ Registration ~ errors', errors)
+  const LoginRequest = async (login) => {
+    console.log(login, ' credential')
+    try {
+      const response = await axios.post(
+        `http://192.168.1.40:8890/rightFitLogin/validateLogin?username=${login.email}&password=${login.password}`,
+      )
+      setRespond(response?.data)
+      handleSubmissionUser(response.data)
+      // console.log(responsed, ' ...data')
+    } catch (error) {
+      console.log(`hello its ${error}`)
+    }
+  }
   const handleSubmissionUser = (data) => {
-    if (data.email === test.email && data.password === test.password) {
-      // setValue(true)
-      dispatch({
-        type: 'userAuth',
-        email: data.email,
-      })
-      dispatch({
-        type: 'userAuth',
-        password: data.password,
-      })
-      dispatch({
-        type: 'userAuth',
-        isAuthenticated: true,
-      })
+    if (data?.reqResponse === 'FAIL') {
+      setError1(data?.reqMessage)
+      setUser('')
+      console.log(error1)
     } else {
+      setError1('')
+      setUser(data?.userName)
       dispatch({
         type: 'userAuth',
-        email: '',
+        userId: data?.userId,
       })
       dispatch({
         type: 'userAuth',
-        password: '',
+        userName: data?.userName,
       })
       dispatch({
         type: 'userAuth',
-        isAuthenticated: false,
+        loginId: data?.loginId,
+      })
+      dispatch({
+        type: 'userAuth',
+        roleId: data?.roleId,
+      })
+      dispatch({
+        type: 'userAuth',
+        roleName: data?.roleName,
+      })
+      dispatch({
+        type: 'userAuth',
+        orgId: data?.orgId,
+      })
+      dispatch({
+        type: 'userAuth',
+        orgName: data?.orgName,
+      })
+      dispatch({
+        type: 'userAuth',
+        accessToken: data?.accessToken,
       })
     }
-    data.preventDefault()
+    // setValue(true)
+    // data.preventDefault()
   }
-  console.log(Email, IsAuthenticated, 'ans')
+  // <CAlert color="success">A simple success alert—check it out!</CAlert>
+  // <CAlert color="danger">A simple danger alert—check it out!</CAlert>
+  // console.log(Email, IsAuthenticated, 'ans')
   return (
     <>
       <GlobalStyle />
@@ -72,6 +101,17 @@ const Registration = () => {
             <div className="modal-container">
               <div className="modal-left">
                 <h1 className="modal-title">Welcome!</h1>
+                {/* <CAlert color="danger">{error1}</CAlert> */}
+                {error1.length > 1 ? (
+                  <CAlert color="danger" dismissible>
+                    {error1}
+                  </CAlert>
+                ) : null}
+                {user.length > 1 ? (
+                  <CAlert color="success" dismissible>
+                    Welcome {user} !
+                  </CAlert>
+                ) : null}
                 <p className="modal-desc">Login Here </p>
                 <form onSubmit={handleSubmit}>
                   <div className="input-block">
@@ -110,6 +150,7 @@ const Registration = () => {
                       <p className="form-error">*{errors.password}</p>
                     ) : null}
                   </div>
+                  {/* {error1.length > 1 ? <p className="form-error">*{error1}</p> : null} */}
                   <div className="modal-buttons">
                     <a href="#" className="">
                       Want to register using Gmail?
