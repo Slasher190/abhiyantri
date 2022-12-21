@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 // import { GlobalStyle } from './Styles/globalStyles'
 import { useFormik } from 'formik'
@@ -6,8 +6,10 @@ import { signInSchema } from 'src/constants/schemaValidation'
 import Wrapper from 'src/scss/_registration'
 import { GlobalStyle } from 'src/scss/formStyle'
 import { useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
+// import axios from 'axios'
 import { CAlert } from '@coreui/react'
+import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 const initialValues = {
   email: '',
@@ -20,15 +22,13 @@ const Registration = () => {
   const [error1, setError1] = useState('')
   const [user, setUser] = useState('')
   const sidebarShow = useSelector((state) => state.sidebarShow)
-  // const { email, password, isAuthenticated } = useSelector((state) => state.userAuth)
-  // const Email = useSelector((state) => state.email)
-  // const Password = useSelector((state) => state.password)
-  // const IsAuthenticated = useSelector((state) => state.isAuthenticated)
+  const username = useSelector((state) => state.userName)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues,
     validationSchema: signInSchema,
     onSubmit: (values, action) => {
-      // console.log('hello here the value', values)
       LoginRequest(values)
     },
   })
@@ -36,11 +36,11 @@ const Registration = () => {
     console.log(login, ' credential')
     try {
       const response = await axios.post(
-        `http://192.168.1.40:8890/rightFitLogin/validateLogin?username=${login.email}&password=${login.password}`,
+        `/rightFitLogin/validateLogin?username=${login.email}&password=${login.password}`,
       )
       setRespond(response?.data)
       handleSubmissionUser(response.data)
-      // console.log(responsed, ' ...data')
+      console.log(responsed, ' ...data')
     } catch (error) {
       console.log(`hello its ${error}`)
     }
@@ -50,9 +50,11 @@ const Registration = () => {
       setError1(data?.reqMessage)
       setUser('')
       console.log(error1)
+      setIsAuthenticated(false)
     } else {
       setError1('')
       setUser(data?.userName)
+      setIsAuthenticated(true)
       dispatch({
         type: 'userAuth',
         userId: data?.userId,
@@ -89,9 +91,10 @@ const Registration = () => {
     // setValue(true)
     // data.preventDefault()
   }
+  useEffect(() => {}, [isAuthenticated])
   // <CAlert color="success">A simple success alert—check it out!</CAlert>
   // <CAlert color="danger">A simple danger alert—check it out!</CAlert>
-  // console.log(Email, IsAuthenticated, 'ans')
+  console.log(isAuthenticated, 'ans')
   return (
     <>
       <GlobalStyle />
@@ -157,6 +160,7 @@ const Registration = () => {
                     </a>
                     <button className="input-button" type="submit">
                       Sign In
+                      {isAuthenticated === true ? <a href="#/dashboard">.</a> : null}
                     </button>
                   </div>
                 </form>

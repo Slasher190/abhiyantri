@@ -17,7 +17,10 @@ export const validate = Yup.object().shape({
   email: Yup.string().email('Please enter a vaild email').min(2, 'Must be more than 10 characters'),
   password: Yup.string().min(2, 'Must be more than 10 characters'),
   gender: Yup.string().min(2, 'Must be more than 10 characters').nullable(),
-  // nationality: Yup.string().min(2, 'Must be more than 10 characters').nullable(),
-  // birthDate: Yup.string().min(2, 'Must be more than 10 characters').nullable(),
-  // isSeller: Yup.string().min(2, 'Must be more than 10 characters'),
+  nationality: Yup.string().min(2, 'Must be more than 10 characters').nullable(),
+  birthDate: Yup.string().min(2, 'Must be more than 10 characters').nullable(),
+  isSeller: Yup.string().min(2, 'Must be more than 10 characters'),
 })
+// export const organisationMaster = Yup.object().shape({
+
+// })
