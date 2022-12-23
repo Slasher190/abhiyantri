@@ -1,31 +1,38 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
-
+const BASE_ADDRESS = 'http://192.168.1.36:8890'
 module.exports = function(app) {
   app.use(
     '/rightFitLogin/validateLogin',
     createProxyMiddleware({
-      target: 'http://192.168.1.36:8890',
+      target: BASE_ADDRESS,
       changeOrigin: true,
     })
   );
   app.use(
     '/rightFitPlan/getPlanListLOV',
     createProxyMiddleware({
-      target: 'http://192.168.1.36:8890',
+      target: BASE_ADDRESS,
       changeOrigin: true,
     })
   );
   app.use(
     '/rightFitOrg/saveOrgMaster',
     createProxyMiddleware({
-      target: 'http://192.168.1.36:8890',
+      target: BASE_ADDRESS,
       changeOrigin: true,
     })
   );
   app.use(
     '/rightFitOrg/getOrgMasterList',
     createProxyMiddleware({
-      target: 'http://192.168.1.36:8890',
+      target: BASE_ADDRESS,
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    'rightFitOrg/getOrgMasterDetail',
+    createProxyMiddleware({
+      target: BASE_ADDRESS,
       changeOrigin: true,
     })
   );

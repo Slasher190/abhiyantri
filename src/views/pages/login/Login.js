@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 // import { GlobalStyle } from './Styles/globalStyles'
 import { useFormik } from 'formik'
@@ -16,6 +17,7 @@ const initialValues = {
   password: '',
 }
 const Registration = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const [responsed, setRespond] = useState(null)
@@ -87,6 +89,11 @@ const Registration = () => {
         type: 'userAuth',
         accessToken: data?.accessToken,
       })
+      dispatch({
+        type: 'userAuth',
+        isAuthenticated: true,
+      })
+      navigate('/dashboard')
     }
     // setValue(true)
     // data.preventDefault()
@@ -160,7 +167,7 @@ const Registration = () => {
                     </a>
                     <button className="input-button" type="submit">
                       Sign In
-                      {isAuthenticated === true ? <a href="#/dashboard">.</a> : null}
+                      {/* {isAuthenticated === true ? <a href="/dashboard"></a> : null} */}
                     </button>
                   </div>
                 </form>
