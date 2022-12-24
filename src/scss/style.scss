@@ -1,34 +1,80 @@
 // If you want to override variables do it here
-@import "variables";
+@import 'variables';
 
 $enable-ltr: true;
 $enable-rtl: true;
 
 // Import CoreUI for React components library
-@import "@coreui/coreui/scss/coreui";
+@import '@coreui/coreui/scss/coreui';
 
 // Import Chart.js custom tooltips styles
-@import "@coreui/chartjs/scss/coreui-chartjs";
+@import '@coreui/chartjs/scss/coreui-chartjs';
 
-@import "layout";
-@import "example";
+@import 'layout';
+@import 'example';
 
 // If you want to add custom CSS you can put it here.
-@import "custom";
-
-
+@import 'custom';
 
 // cusmise css
 // @media screen and (min-width: 1280px)  {
-    
+
 //     .widthCustise{
 //         width: 192px;
-        
+
 //         margin: auto;
 //         width: 50%;
 //         // border: 3px solid green;
 //         padding: 10px;
-    
+
 //     }
 // }
 
+// =================== Sachin pandey =================
+
+.Wrapper-Box {
+  background-color: rgba(240, 240, 240, 0.897);
+}
+.Submitbutton {
+  margin: auto;
+  padding: auto;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.primeryColor{
+    color: #212F56;
+}
+.signinButton{
+    padding: 1.2rem 3.2rem;
+    outline: none;
+    text-transform: uppercase;
+    border: 0;
+    color: #fff;
+    border-radius: 4px;
+    background: #4862aa;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    cursor: pointer;
+    font-family: 'Nunito',sans-serif;
+}
+.signinButton:hover{
+    background-color: #212F56;
+}
+
+.email , .password{
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 600;
+    -webkit-letter-spacing: 0.7px;
+    -moz-letter-spacing: 0.7px;
+    -ms-letter-spacing: 0.7px;
+    letter-spacing: 0.7px;
+    color: #212F56;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+}
+.signup{
+    color: #212F56;
+}

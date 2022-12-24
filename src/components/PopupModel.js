@@ -115,7 +115,7 @@ const Form = (props) => {
   console.log(props?.orgId, ' hurray ')
   return (
     <Wrapper>
-      <CForm className="row g-3 needs-validation" onSubmit={(e) => handleSubmit(e)}>
+      <CForm className="row g-3 needs-validation Wrapper-Box" onSubmit={(e) => handleSubmit(e)}>
         {Status === 'SUCCESS' ? (
           <CAlert color="success" dismissible>
             Updated Successfully !
@@ -138,8 +138,10 @@ const Form = (props) => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
+          {errors.orgName && touched.orgName ? (
+            <p className="form-error">*{errors.orgName}</p>
+          ) : null}
         </CCol>
-        {errors.orgName && touched.orgName ? <p className="form-error">*{errors.orgName}</p> : null}
         <CCol md={4}>
           <CFormInput
             type="text"
@@ -152,8 +154,8 @@ const Form = (props) => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
+          {errors.domain && touched.domain ? <p className="form-error">*{errors.domain}</p> : null}
         </CCol>
-        {errors.domain && touched.domain ? <p className="form-error">*{errors.domain}</p> : null}
         <CCol md={3}>
           <CFormSelect
             aria-describedby="validationCustom04Feedback"
@@ -198,7 +200,7 @@ const Form = (props) => {
           <CFormFeedback invalid>You must agree before submitting.</CFormFeedback>
         </CCol>
         <CCol xs={12}>
-          <CButton color="primary" type="submit">
+          <CButton className="Submitbutton" color="primary" type="submit">
             Submit form
           </CButton>
         </CCol>

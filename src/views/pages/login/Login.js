@@ -110,7 +110,8 @@ const Registration = () => {
           <div className="modal">
             <div className="modal-container">
               <div className="modal-left">
-                <h1 className="modal-title">Welcome!</h1>
+                <h1 className=" primeryColor">Welcome!</h1>
+                {/* I romoved modal-title */}
                 {/* <CAlert color="danger">{error1}</CAlert> */}
                 {error1.length > 1 ? (
                   <CAlert color="danger" dismissible>
@@ -122,10 +123,11 @@ const Registration = () => {
                     Welcome {user} !
                   </CAlert>
                 ) : null}
-                <p className="modal-desc">Login Here </p>
+                <p className="modal-desc ">Login Here </p>
                 <form onSubmit={handleSubmit}>
                   <div className="input-block">
-                    <label htmlFor="email" className="input-label">
+                    <label htmlFor="email" className=" primeryColor email">
+                      {/*Removed input-label */}
                       Email
                     </label>
                     <input
@@ -143,7 +145,8 @@ const Registration = () => {
                     ) : null}
                   </div>
                   <div className="input-block">
-                    <label htmlFor="password" className="input-label">
+                    <label htmlFor="password" className="primeryColor password">
+                      {/* Removed input-label */}
                       Password
                     </label>
                     <input
@@ -165,13 +168,14 @@ const Registration = () => {
                     <a href="#" className="">
                       Want to register using Gmail?
                     </a>
-                    <button className="input-button" type="submit">
+                    <button className=" signinButton" type="submit">
+                      {/* I removed  input-button  */}
                       Sign In
                       {/* {isAuthenticated === true ? <a href="/dashboard"></a> : null} */}
                     </button>
                   </div>
                 </form>
-                <p className="sign-up">
+                <p className="signup">
                   Do not have an account? <a href="#/register">Sign Up now</a>
                 </p>
               </div>
