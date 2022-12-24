@@ -24,7 +24,7 @@ import { useFormik } from 'formik'
 import { organisationMaster } from 'src/constants/schemaValidation'
 import { CAlert } from '@coreui/react'
 import { Wrap } from '@chakra-ui/react'
-
+/////////////////////////////////////////////////////////////////API INTEGRATION/////////////////////////////
 const initialValues = {
   orgName: '',
   domain: '',
@@ -100,7 +100,7 @@ const Validation = () => {
     }
   }, [])
   console.log(planId, ' heree', 'dhdgli   fgivi')
-
+  //////////////////////////////////////////////////////////////////////////////////
   return (
     <Wrapper>
       <CRow>

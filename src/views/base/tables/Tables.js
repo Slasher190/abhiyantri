@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
-import App from 'src/components/Export/exportToPdf'
+// import App from 'src/components/Export/exportToPdf'
 import DataTable from 'react-data-table-component'
 import DataTableExtensions from 'react-data-table-component-extensions'
 import 'react-data-table-component-extensions/dist/index.css'
@@ -65,7 +65,7 @@ const Tables = () => {
 
   return (
     <>
-      <App />
+      {/* <App /> */}
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4">

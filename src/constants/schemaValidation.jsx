@@ -21,6 +21,7 @@ export const validate = Yup.object().shape({
   birthDate: Yup.string().min(2, 'Must be more than 10 characters').nullable(),
   isSeller: Yup.string().min(2, 'Must be more than 10 characters'),
 })
+////////////////////////////////////////ORGANISATION///////////////////////////////////////////////
 export const organisationMaster = Yup.object().shape({
   orgName: Yup.string()
     .min(3, 'Must be more then two character')
@@ -31,3 +32,4 @@ export const organisationMaster = Yup.object().shape({
     .max(500, 'Must not be more than 500 characters')
     .required('Cannot Be Empty'),
 })
+//////////////////////////////////////////////////////////////////////////////////////////////////
