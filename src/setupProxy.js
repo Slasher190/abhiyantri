@@ -36,4 +36,25 @@ module.exports = function(app) {
       changeOrigin: true,
     })
   );
+  app.use(
+    '/rightFitDept/saveDeptMaster',
+    createProxyMiddleware({
+      target: BASE_ADDRESS,
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    '/rightFitDept/getDeptMasterDetail',
+    createProxyMiddleware({
+      target: BASE_ADDRESS,
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    'rightFitDept/getDeptMasterList',
+    createProxyMiddleware({
+      target: BASE_ADDRESS,
+      changeOrigin: true,
+    })
+  );
 };

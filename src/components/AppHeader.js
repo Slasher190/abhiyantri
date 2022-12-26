@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { Navigate, NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CContainer,
@@ -17,12 +17,17 @@ import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
 import { logo } from 'src/assets/brand/logo'
+import { useNavigate } from 'react-router-dom'
 
 const AppHeader = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const sidebarShow = useSelector((state) => state.sidebarShow)
   const userName = useSelector((state) => state.userName)
-  console.log(userName, ' hello Mister')
+  const handleClick = () => {
+    Navigate('/')
+  }
+  // console.log(userName, ' hello Mister')
   return (
     <CHeader position="sticky" className="mb-4">
       <CContainer fluid>
@@ -33,7 +38,7 @@ const AppHeader = () => {
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
         <CHeaderBrand className="mx-auto d-md-none" to="/">
-          <CIcon icon={logo} height={48} alt="Logo" />
+          <CIcon icon={logo} height={48} alt="Logo" onClick={() => handleClick()} />
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>

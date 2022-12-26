@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CAlert } from '@coreui/react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+// import Loader from 'src/constants/loader/loader'
 
 const initialValues = {
   email: '',
@@ -31,6 +32,7 @@ const Registration = () => {
     initialValues,
     validationSchema: signInSchema,
     onSubmit: (values, action) => {
+      // setLoading(true)
       LoginRequest(values)
     },
   })
@@ -93,7 +95,8 @@ const Registration = () => {
         type: 'userAuth',
         isAuthenticated: true,
       })
-      navigate('/dashboard')
+      // setLoading(false)
+      navigate('/')
     }
     // setValue(true)
     // data.preventDefault()
@@ -123,6 +126,7 @@ const Registration = () => {
                     Welcome {user} !
                   </CAlert>
                 ) : null}
+                {/* {loading ? <Loader /> : null} */}
                 <p className="modal-desc ">Login Here </p>
                 <form onSubmit={handleSubmit}>
                   <div className="input-block">

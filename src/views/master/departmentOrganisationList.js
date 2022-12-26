@@ -6,56 +6,41 @@ import DataTable from 'react-data-table-component'
 import DataTableExtensions from 'react-data-table-component-extensions'
 import 'react-data-table-component-extensions/dist/index.css'
 import { useDispatch, useSelector } from 'react-redux'
-import Modal from 'src/components/PopupModel'
+import Modal from 'src/views/master/departmentMaster/departmentDetail'
 
 const Tables = () => {
   const [data, setData] = React.useState('')
   const dispatch = useDispatch()
   const [id, setId] = React.useState(null)
   const token = useSelector((state) => state.accessToken)
-  const handleClick = (e) => {
-    console.log(e)
-    // dispatch({
-    //   type: 'set',
-    //   orgId: id,
-    // })
-  }
+  const orgId = useSelector((state) => state.orgId)
+
   const columns = [
     { name: 'Organisation Name', selector: (row) => row?.orgName, sortable: true },
-    { name: 'Plan name', selector: (row) => row?.planName, sortable: true },
+    { name: 'Department name', selector: (row) => row?.deptName, sortable: true },
     { name: 'Status', selector: (row) => row?.status, sortable: true },
-    { name: 'Domain', selector: (row) => row?.domain, sortable: true },
-    {
-      name: 'Edit',
-      selector: (row) => row.orgId,
-      cell: (row) => <Modal orgId={row?.orgId} />,
-      sortable: false,
-    },
+    { name: 'Create Date', selector: (row) => row?.createDate.split(' ')[0], sortable: true },
+    // {
+    //   name: 'Edit',
+    //   selector: (row) => row.deptId,
+    //   cell: (row) => <Modal deptId={row?.deptId} orgId={row?.orgId} />,
+    //   sortable: false,
+    // },
   ]
-  // const columns = [
-  //   { name: 'Organisation Name', selector: data?.orgName, sortable: true },
-  //   { name: 'Plan name', selector: data?.planName, sortable: true },
-  //   { name: 'Status', selector: data?.status, sortable: true },
-  //   { name: 'Domain', selector: data?.domain, sortable: true },
-  //   {
-  //     name: 'Edit',
-  //     selector: data?.orgId,
-  //     cell: (row) => <Modal orgId={row.orgId} />,
-  //     sortable: false,
-  //   },
-  // ]
-  console.log(id, ' ...id')
   React.useEffect(() => {
-    console.log(token, 'Im tokn')
+    // console.log(token, 'Im tokn')
     try {
       const getData = async () => {
-        const res = await axios.get('/rightFitOrg/getOrgMasterList', {
-          headers: {
-            authorization: `Bearer ${token}`,
+        const res = await axios.get(
+          `http://192.168.1.36:8890/rightFitDept/getDeptMasterListByOrg?orgId=${orgId}`,
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
           },
-        })
+        )
+        console.log(res.data, 'dfh rtgarghd')
         setData(res.data)
-        console.log(res.data)
       }
       getData()
     } catch (error) {
@@ -70,7 +55,7 @@ const Tables = () => {
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
-              <strong>Organisation Table</strong>
+              <strong>Department List</strong>
             </CCardHeader>
             <CCardBody>
               <DataTableExtensions columns={columns} data={data}>

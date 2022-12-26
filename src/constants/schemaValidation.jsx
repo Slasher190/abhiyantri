@@ -33,3 +33,10 @@ export const organisationMaster = Yup.object().shape({
     .required('Cannot Be Empty'),
 })
 //////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const departmentMaster = Yup.object().shape({
+  deptName: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot Be Empty'),
+})
