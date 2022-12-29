@@ -97,6 +97,24 @@ const _nav = [
         name: 'D/O List',
         to: '/master/departmentOrganisationList',
       },
+      {
+        component: CNavGroup,
+        name: 'System Setting',
+        to: '/base',
+        icon: <CIcon icon={cilGroup} customClassName="nav-icon" />,
+        items: [
+          {
+            component: CNavItem,
+            name: 'Add System Setting',
+            to: '/master/addSystemSetting',
+          },
+          {
+            component: CNavItem,
+            name: 'System Setting List',
+            to: '/master/systemSettingList',
+          },
+        ],
+      },
     ],
   },
   {

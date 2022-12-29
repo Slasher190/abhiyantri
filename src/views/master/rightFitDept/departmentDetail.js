@@ -22,8 +22,9 @@ import React from 'react'
 import { useFormik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import axios from 'axios'
-import { organisationMaster } from 'src/constants/schemaValidation'
+// import axios from 'axios'
+import axios from 'src/api/axios'
+import { departmentMaster } from 'src/constants/schemaValidation'
 import { CAlert } from '@coreui/react'
 import { Icon } from '@chakra-ui/react'
 import EditIcon from '@mui/icons-material/Edit'
@@ -43,7 +44,7 @@ const Form = (props) => {
   const token = useSelector((state) => state.accessToken)
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues,
-    validationSchema: organisationMaster,
+    validationSchema: departmentMaster,
     onSubmit: (values, action) => {
       console.log(values, ' ...formik')
       // LoginRequest(values)
@@ -51,22 +52,22 @@ const Form = (props) => {
     },
   })
   const saveData = async (Data) => {
-    console.log(' chal gya yanha tak ...', Data)
+    console.log(' chal gya yanha tak ... gh', Data)
     const data = JSON.stringify({
+      deptId: props?.deptId,
       orgId: props?.orgId,
-      orgName: Data?.orgName,
-      domain: Data?.domain,
-      planId: Data?.planId,
+      deptName: Data?.deptName,
       status: Data?.status,
     })
     console.log(data, ' Ye hai data')
     try {
-      const res = await axios.post('/rightFitOrg/saveOrgMaster', data, {
+      const res = await axios.post('/rightFitDept/saveDeptMaster', data, {
         headers: {
           authorization: `Bearer ${token}`,
           'content-Type': 'application/json',
         },
       })
+      console.log(' chal gya yanha tak ... gh', Data)
       console.log(res.data, ' ...response')
       if (res.data.reqResponse === 'FAILED') {
         setStatus('FAILED')
@@ -82,37 +83,22 @@ const Form = (props) => {
     try {
       const getDetail = async () => {
         const res = await axios.get(
-          `http://192.168.1.36:8890/rightFitOrg/getOrgMasterDetail?id=${parseInt(props.orgId)}`,
+          `/rightFitDept/getDeptMasterDetail?id=${parseInt(props.deptId)}`,
           {
             headers: {
               authorization: `Bearer ${token}`,
             },
           },
         )
+        console.log(res.data, ' here the data dekho')
         setData(res.data)
-        console.log(res.data, ' here the data ')
       }
       getDetail()
     } catch (error) {
       console.log(`helloo its ${error}`)
     }
   }, [])
-  React.useEffect(() => {
-    try {
-      const getDetail = async () => {
-        const res = await axios.get('/rightFitPlan/getPlanListLOV', {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        })
-        setPlanId(res.data)
-      }
-      getDetail()
-    } catch (error) {
-      console.log(`helloo its ${error}`)
-    }
-  }, [])
-  console.log(props?.orgId, ' hurray ')
+  console.log(props?.deptId, ' hurray ')
   return (
     <Wrapper>
       <CForm className="row g-3 needs-validation Wrapper-Box" onSubmit={(e) => handleSubmit(e)}>
@@ -129,32 +115,17 @@ const Form = (props) => {
         <CCol md={4}>
           <CFormInput
             type="text"
-            value={values.orgName}
-            defaultValue={data?.orgName}
-            feedbackValid="Looks good!"
+            value={values.deptName}
+            // defaultValue={data?.orgName}
             id="validationCustom01"
-            label="Organisation Name"
-            name="orgName"
+            label="Department Name"
+            name="deptName"
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.orgName && touched.orgName ? (
-            <p className="form-error">*{errors.orgName}</p>
+          {errors.deptName && touched.deptName ? (
+            <p className="form-error">*{errors.deptName}</p>
           ) : null}
-        </CCol>
-        <CCol md={4}>
-          <CFormInput
-            type="text"
-            value={values.domain}
-            defaultValue={data?.domain}
-            feedbackValid="Looks good!"
-            id="validationCustom02"
-            label="Domain"
-            name="domain"
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {errors.domain && touched.domain ? <p className="form-error">*{errors.domain}</p> : null}
         </CCol>
         <CCol md={3}>
           <CFormSelect
@@ -173,32 +144,6 @@ const Form = (props) => {
             <option>Inactive</option>
           </CFormSelect>
         </CCol>
-        <CCol md={3}>
-          <CFormSelect
-            aria-describedby="validationCustom04Feedback"
-            feedbackInvalid="Please select a valid state."
-            id="validationCustom04"
-            value={values.planId}
-            defaultValue={data?.planName}
-            label="Plan Name"
-            name="planId"
-            onChange={handleChange}
-            onBlur={handleBlur}
-          >
-            <option disabled>Choose...</option>
-            {Object.keys(planId).map((key, index) => {
-              return (
-                <option value={key} key={index}>
-                  {planId[key]}
-                </option>
-              )
-            })}
-          </CFormSelect>
-        </CCol>
-        <CCol xs={12}>
-          <CFormCheck type="checkbox" id="invalidCheck" label="Agree to terms and conditions" />
-          <CFormFeedback invalid>You must agree before submitting.</CFormFeedback>
-        </CCol>
         <CCol xs={12}>
           <CButton className="Submitbutton" color="primary" type="submit">
             Submit form
@@ -209,8 +154,6 @@ const Form = (props) => {
   )
 }
 const Modal = (props) => {
-  const Id = useSelector((state) => state.orgId)
-  console.log(Id, ' here the id is')
   const [visible, setVisible] = React.useState(false)
   return (
     <>
@@ -220,7 +163,7 @@ const Modal = (props) => {
           <CModalTitle>Modal </CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <Form orgId={props?.orgId} />
+          <Form deptId={props?.deptId} orgId={props?.orgId} />
         </CModalBody>
       </CModal>
     </>
@@ -229,8 +172,10 @@ const Modal = (props) => {
 export default Modal
 
 Form.propTypes = {
+  deptId: PropTypes.string,
   orgId: PropTypes.string,
 }
 Modal.propTypes = {
+  deptId: PropTypes.string,
   orgId: PropTypes.string,
 }

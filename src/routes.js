@@ -9,19 +9,23 @@ const Cards = React.lazy(() => import('./views/base/cards/Cards'))
 // master
 
 // Organisation
-const addOrganisation = React.lazy(() => import('./views/master/organisationMaster/addOrganistion'))
-const listOrganisation = React.lazy(() =>
-  import('./views/master/organisationMaster/organisationList'),
-)
+const addOrganisation = React.lazy(() => import('./views/master/rightfitOrg/addOrganistion'))
+const listOrganisation = React.lazy(() => import('./views/master/rightfitOrg/organisationList'))
 
-//Department
-const addDepartment = React.lazy(() => import('./views/master/departmentMaster/addDepartment'))
-const listDepartment = React.lazy(() => import('./views/master/departmentMaster/departmentList'))
+// Department
+const addDepartment = React.lazy(() => import('./views/master/rightFitDept/addDepartment'))
+const listDepartment = React.lazy(() => import('./views/master/rightFitDept/departmentList'))
 
 // Org Depar
 const departmentOrganisationList = React.lazy(() =>
   import('./views/master/departmentOrganisationList'),
 )
+
+// systemSetting
+const systemSettingList = React.lazy(() =>
+  import('./views/master/rightFitSystem/systemSettingList'),
+)
+const addSystemSetting = React.lazy(() => import('./views/master/rightFitSystem/addSystem'))
 const routes = [
   { path: '/', exact: true, name: 'Home', element: Home },
 
@@ -40,6 +44,8 @@ const routes = [
     name: 'Department List',
     element: departmentOrganisationList,
   },
+  { path: '/master/systemSettingList', name: 'System Setting List', element: systemSettingList },
+  { path: '/master/addSystemSetting', name: 'Add System Setting', element: addSystemSetting },
 ]
 
 export default routes

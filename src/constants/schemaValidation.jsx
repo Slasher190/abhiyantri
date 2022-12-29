@@ -26,11 +26,11 @@ export const organisationMaster = Yup.object().shape({
   orgName: Yup.string()
     .min(3, 'Must be more then two character')
     .max(200, 'Must not be more than 200 characters')
-    .required('Cannot Be Empty'),
+    .required('Cannot be Empty'),
   domain: Yup.string()
     .min(3, 'Must be more then two character')
     .max(500, 'Must not be more than 500 characters')
-    .required('Cannot Be Empty'),
+    .required('Cannot be Empty'),
 })
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -38,5 +38,35 @@ export const departmentMaster = Yup.object().shape({
   deptName: Yup.string()
     .min(3, 'Must be more then two character')
     .max(200, 'Must not be more than 200 characters')
-    .required('Cannot Be Empty'),
+    .required('Cannot be Empty'),
 })
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const systemMaster = Yup.object().shape({
+  companyName: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+  smtpUserName: Yup.string().email().required('Please enter your SMTP username'),
+  smtpPort: Yup.number().required('Please enter your SMTP PORT'),
+  emailFrom: Yup.string().email().required('Please enter your email'),
+  smtpPassword: Yup.string()
+    .min(6, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+  smsSender: Yup.string().required('Please fill your sender address'),
+  smtpHost: Yup.string().required('Cannot be empty'),
+})
+
+// {
+//   "id": "1",
+//   "companyName": "Abhiyantriki",
+//   "smtpHost": "smtp.gmail.com",
+//   "smtpPort": "587",
+//   "smtpUserName": "ashishparashar10@gmail.com",
+//   "smtpPassword": "psfyb12@hvubmusjfqo",
+//   "emailFrom": "ashishparashar10@gmail.com",
+//   "createBy": "deepakP",
+//   "smsSender": "sytbpl"
+// }
