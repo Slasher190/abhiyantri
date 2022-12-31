@@ -26,6 +26,19 @@ const systemSettingList = React.lazy(() =>
   import('./views/master/rightFitSystem/systemSettingList'),
 )
 const addSystemSetting = React.lazy(() => import('./views/master/rightFitSystem/addSystem'))
+
+//Plan
+const listPlan = React.lazy(() => import('./views/master/rightFitPlan/planList'))
+const addPlan = React.lazy(() => import('./views/master/rightFitPlan/addPlan'))
+
+//Ref
+const listRef = React.lazy(() => import('./views/master/rightFitRef/refList'))
+const addRef = React.lazy(() => import('./views/master/rightFitRef/addRef'))
+
+//Role
+const listRole = React.lazy(() => import('./views/master/rightFitRole/roleList'))
+const addRole = React.lazy(() => import('./views/master/rightFitRole/addRole'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home', element: Home },
 
@@ -46,6 +59,12 @@ const routes = [
   },
   { path: '/master/systemSettingList', name: 'System Setting List', element: systemSettingList },
   { path: '/master/addSystemSetting', name: 'Add System Setting', element: addSystemSetting },
+  { path: '/master/listPlan', name: 'Plan List', element: listPlan },
+  { path: '/master/addPlan', name: 'Add Plan', element: addPlan },
+  { path: '/master/listRef', name: 'Ref List', element: listRef },
+  { path: '/master/addRef', name: 'Add Ref', element: addRef },
+  { path: '/master/addRole', name: 'Add Role', element: addRole },
+  { path: '/master/listRole', name: 'Role List', element: listRole },
 ]
 
 export default routes

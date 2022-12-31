@@ -11,7 +11,7 @@ import axios from 'src/api/axios'
 import DataTableCustom from 'src/constants/dataTableCustum'
 
 const Tables = () => {
-  const [data, setData] = React.useState('')
+  const [data, setData] = React.useState()
   const dispatch = useDispatch()
   const [id, setId] = React.useState(null)
   const token = useSelector((state) => state.accessToken)

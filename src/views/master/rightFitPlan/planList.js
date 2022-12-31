@@ -8,7 +8,7 @@ import DataTableExtensions from 'react-data-table-component-extensions'
 import 'react-data-table-component-extensions/dist/index.css'
 import { useDispatch, useSelector } from 'react-redux'
 import Modal from 'src/views/master/rightFitDept/departmentDetail'
-
+import DataTableCustom from 'src/constants/dataTableCustum'
 const Tables = () => {
   const [data, setData] = React.useState('')
   const dispatch = useDispatch()
@@ -17,14 +17,13 @@ const Tables = () => {
   const orgId = useSelector((state) => state.orgId)
 
   const columns = [
-    { name: 'Organisation Name', selector: (row) => row?.orgName, sortable: true },
-    { name: 'Department name', selector: (row) => row?.deptName, sortable: true },
+    { name: 'Plan Name', selector: (row) => row?.planName, sortable: true },
     { name: 'Status', selector: (row) => row?.status, sortable: true },
-    { name: 'Create Date', selector: (row) => row?.createDate.split(' ')[0], sortable: true },
+    { name: 'Create Date', selector: (row) => row?.createDate?.split(' ')[0], sortable: true },
     {
       name: 'Edit',
-      selector: (row) => row.deptId,
-      cell: (row) => <Modal deptId={row?.deptId} orgId={row?.orgId} />,
+      selector: (row) => row.planId,
+      cell: (row) => <Modal planId={row?.planId} />,
       sortable: false,
     },
   ]
@@ -32,7 +31,7 @@ const Tables = () => {
     // console.log(token, 'Im tokn')
     try {
       const getData = async () => {
-        const res = await axios.get('/rightFitSystem/getSystemSettingList', {
+        const res = await axios.get('/rightFitPlan/getPlanMasterList', {
           headers: {
             authorization: `Bearer ${token}`,
           },
@@ -53,23 +52,10 @@ const Tables = () => {
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
-              <strong style={{background:"212f56", color: "#fff"}}>Department List</strong>
+              <strong style={{ background: '212f56', color: '#fff' }}>Department List</strong>
             </CCardHeader>
             <CCardBody>
-              <DataTableExtensions columns={columns} data={data}>
-                <DataTable
-                  // title="Globe"
-                  highlightOnHover
-                  pagination
-                  exportHeaders={true}
-                  paginationPerPage={5}
-                  paginationRowsPerPageOptions={[5, 15, 25, 50]}
-                  paginationComponentOptions={{
-                    rowsPerPageText: 'Records per page',
-                    rangeSeparatorText: 'out of',
-                  }}
-                />
-              </DataTableExtensions>
+              <DataTableCustom columns={columns} data={data}></DataTableCustom>
             </CCardBody>
           </CCard>
         </CCol>

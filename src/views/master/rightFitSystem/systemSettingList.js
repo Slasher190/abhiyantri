@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Modal from './systemSettingDetail'
 
 const Tables = () => {
-  const [data, setData] = React.useState('')
+  const [data, setData] = React.useState()
   const dispatch = useDispatch()
   const [id, setId] = React.useState(null)
   const token = useSelector((state) => state.accessToken)

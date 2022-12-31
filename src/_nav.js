@@ -115,6 +115,61 @@ const _nav = [
           },
         ],
       },
+
+      {
+        component: CNavGroup,
+        name: 'Reference code',
+        to: '/base',
+        icon: <CIcon icon={cilGroup} customClassName="nav-icon" />,
+        items: [
+          {
+            component: CNavItem,
+            name: 'Add Ref',
+            to: '/master/addRef',
+          },
+          {
+            component: CNavItem,
+            name: 'Ref List',
+            to: '/master/listRef',
+          },
+        ],
+      },
+      {
+        component: CNavGroup,
+        name: 'Role',
+        to: '/base',
+        icon: <CIcon icon={cilGroup} customClassName="nav-icon" />,
+        items: [
+          {
+            component: CNavItem,
+            name: 'Add Role',
+            to: '/master/addRole',
+          },
+          {
+            component: CNavItem,
+            name: 'Role List',
+            to: '/master/listRole',
+          },
+        ],
+      },
+      {
+        component: CNavGroup,
+        name: 'Plan',
+        to: '/base',
+        icon: <CIcon icon={cilGroup} customClassName="nav-icon" />,
+        items: [
+          {
+            component: CNavItem,
+            name: 'Add Plan',
+            to: '/master/addPlan',
+          },
+          {
+            component: CNavItem,
+            name: 'Plan List',
+            to: '/master/listPlan',
+          },
+        ],
+      },
     ],
   },
   {
