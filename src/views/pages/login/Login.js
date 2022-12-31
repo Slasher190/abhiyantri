@@ -13,6 +13,8 @@ import { CAlert } from '@coreui/react'
 import axios from 'src/api/axios'
 import { Link } from 'react-router-dom'
 // import Loader from 'src/constants/loader/loader'
+import Loader from 'src/constants/loader'
+import Button from 'src/constants/button'
 
 const initialValues = {
   email: '',
@@ -40,6 +42,7 @@ const Registration = () => {
   const LoginRequest = async (login) => {
     console.log(login, ' credential')
     try {
+      setLoading(true)
       const response = await axios.post(
         `/rightFitLogin/validateLogin?username=${login.email}&password=${login.password}`,
       )
@@ -96,7 +99,7 @@ const Registration = () => {
         type: 'userAuth',
         isAuthenticated: true,
       })
-      // setLoading(false)
+      setLoading(false)
       navigate('/')
     }
     // setValue(true)
@@ -127,7 +130,7 @@ const Registration = () => {
                     Welcome {user} !
                   </CAlert>
                 ) : null}
-                {/* {loading ? <Loader /> : null} */}
+
                 <p className="modal-desc ">Login Here </p>
                 <form onSubmit={handleSubmit}>
                   <div className="input-block">
@@ -173,11 +176,17 @@ const Registration = () => {
                     <a href="#" className="">
                       Want to register using Gmail?
                     </a>
-                    <button className=" signinButton" type="submit">
-                      {/* I removed  input-button  */}
+                    {/* <button className=" signinButton" type="submit">
                       Sign In
-                      {/* {isAuthenticated === true ? <a href="/dashboard"></a> : null} */}
-                    </button>
+                    </button> */}
+                    {/* {loading ? (
+                      <Loader />
+                    ) : (
+                      <button className=" signinButton" type="submit">
+                        Sign In
+                      </button>
+                    )} */}
+                    <Button text="Sign In" load={loading} />
                   </div>
                 </form>
                 <p className="signup">

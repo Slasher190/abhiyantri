@@ -50,8 +50,8 @@ const Tables = () => {
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4">
-            <CCardHeader>
-              <strong>Department List</strong>
+            <CCardHeader className="blockquote bg-blue">
+              <strong className="text-white ">Department List</strong>
             </CCardHeader>
             <CCardBody>
               <DataTableCustom columns={columns} data={data}></DataTableCustom>

@@ -28,6 +28,7 @@ import { systemMaster } from 'src/constants/schemaValidation'
 import { CAlert } from '@coreui/react'
 import { Icon } from '@chakra-ui/react'
 import EditIcon from '@mui/icons-material/Edit'
+import Button from 'src/constants/button'
 // const initialValues = {
 //   companyName: '',
 //   smtpHost: '',
@@ -39,6 +40,7 @@ import EditIcon from '@mui/icons-material/Edit'
 // }
 const Form = (props) => {
   const [validated, setValidated] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
   const [data, setData] = React.useState({})
   const [Status, setStatus] = React.useState('')
   const [message, setMessage] = React.useState('')
@@ -57,6 +59,7 @@ const Form = (props) => {
     validationSchema: systemMaster,
     onSubmit: (values, action) => {
       console.log(values, ' ...formik')
+      setLoading(true)
       // LoginRequest(values)
       saveData(values)
     },
@@ -89,6 +92,7 @@ const Form = (props) => {
         setStatus('SUCCESS')
         setMessage(res.data.reqMessage)
       }
+      setLoading(false)
     } catch (error) {
       console.log('Kuch toh gadbad hai ...', error)
     }
@@ -256,9 +260,10 @@ const Form = (props) => {
           ) : null}
         </CCol>
         <CCol xs={12}>
-          <CButton color="primary" type="submit">
+          {/* <CButton color="primary" type="submit">
             Submit form
-          </CButton>
+          </CButton> */}
+          <Button text="submit" load={loading} />
         </CCol>
       </CForm>
     </Wrapper>

@@ -6,6 +6,7 @@ import LinearProgress from '@material-ui/core/LinearProgress'
 import React from 'react'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import PropTypes from 'prop-types'
+import { Center } from '@chakra-ui/react'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +29,7 @@ const LinearIndeterminate = () => {
 const customStyles = {
   rows: {
     style: {
+      textAlign: 'Center',
       minHeight: '40px', // override the row height
     },
   },

@@ -25,6 +25,7 @@ import { useFormik } from 'formik'
 import { systemMaster } from 'src/constants/schemaValidation'
 import { CAlert } from '@coreui/react'
 import { Wrap } from '@chakra-ui/react'
+import Button from 'src/constants/button'
 /////////////////////////////////////////////////////////////////API INTEGRATION/////////////////////////////
 const initialValues = {
   companyName: '',
@@ -39,6 +40,7 @@ const initialValues = {
 const Validation = () => {
   const token = useSelector((state) => state.accessToken)
   // const orgId = useSelector((state) => state.orgId)
+  const [loading, setLoading] = useState(false)
   const [Status, setStatus] = useState('')
   const [message, setMessage] = useState('')
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
@@ -47,6 +49,7 @@ const Validation = () => {
     onSubmit: (values, action) => {
       console.log(values, ' ...formik ewrt')
       // LoginRequest(values)
+      setLoading(true)
       saveData(values)
     },
   })
@@ -73,6 +76,7 @@ const Validation = () => {
       if (res.data.reqResponse === 'FAILED') {
         setStatus('FAILED')
       } else if (res.data.reqResponse === 'SUCCESS') {
+        setLoading(false)
         setStatus('SUCCESS')
         setMessage(res.data.reqMessage)
       }
@@ -223,9 +227,10 @@ const Validation = () => {
                     ) : null}
                   </CCol>
                   <CCol xs={12}>
-                    <CButton color="primary" type="submit">
+                    {/* <CButton color="primary" type="submit">
                       Submit form
-                    </CButton>
+                    </CButton> */}
+                    <Button text="submit" load={loading} />
                   </CCol>
                 </CForm>
               </DocsExample>

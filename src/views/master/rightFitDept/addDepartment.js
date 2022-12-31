@@ -25,6 +25,7 @@ import { useFormik } from 'formik'
 import { departmentMaster } from 'src/constants/schemaValidation'
 import { CAlert } from '@coreui/react'
 import { Wrap } from '@chakra-ui/react'
+import Loader from 'src/constants/loader'
 /////////////////////////////////////////////////////////////////API INTEGRATION/////////////////////////////
 const initialValues = {
   deptName: '',
@@ -32,6 +33,7 @@ const initialValues = {
 }
 
 const Validation = () => {
+  const [loading, setLoading] = useState(false)
   const token = useSelector((state) => state.accessToken)
   const orgId = useSelector((state) => state.orgId)
   const [Status, setStatus] = useState('')
@@ -42,6 +44,7 @@ const Validation = () => {
     onSubmit: (values, action) => {
       console.log(values, ' ...formik ewrt')
       // LoginRequest(values)
+      setLoading(true)
       saveData(values)
     },
   })
@@ -63,6 +66,7 @@ const Validation = () => {
       if (res.data.reqResponse === 'FAILED') {
         setStatus('FAILED')
       } else if (res.data.reqResponse === 'SUCCESS') {
+        setLoading(false)
         setStatus('SUCCESS')
         setMessage(res.data.reqMessage)
       }
