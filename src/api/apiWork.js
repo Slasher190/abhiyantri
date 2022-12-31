@@ -1,27 +1,17 @@
-const axios = require("axios");
+import axios from 'axios'
 
-const options = {
-  method: 'GET',
-  url: 'https://wft-geo-db.p.rapidapi.com/v1/geo/adminDivisions',
-  headers: {
-    'X-RapidAPI-Key': '53fa27b24amsh4434edb036ce8fdp1240ddjsnf833a435c871',
-    'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com'
+export const getData = async (url, bearerToken) => {
+  const data = ''
+  try {
+    const res = await axios.get(url, {
+      headers: {
+        authorization: `Bearer ${bearerToken}`,
+      },
+    })
+    console.log(typeof res?.data, 'hello this is data ')
+    // data = ...res.data
+  } catch (error) {
+    console.log(error)
   }
-};
-
-axios.request(options).then(function (response) {
-	console.log(response.data);
-}).catch(function (error) {
-	console.error(error);
-});
-
-
-// export const PostData = (path) => {
-//   const options = {
-//     method: 'POST',
-//     url: path,
-//     headers: {
-
-//     }
-//   }
-// }
+  return data
+}

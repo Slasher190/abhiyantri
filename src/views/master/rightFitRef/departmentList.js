@@ -3,33 +3,28 @@ import React from 'react'
 import axios from 'src/api/axios'
 import { CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
 // import App from 'src/components/Export/exportToPdf'
-import DataTableCustom from 'src/constants/dataTableCustum'
+import DataTable from 'react-data-table-component'
+import DataTableExtensions from 'react-data-table-component-extensions'
+import 'react-data-table-component-extensions/dist/index.css'
 import { useDispatch, useSelector } from 'react-redux'
-import Modal from './systemSettingDetail'
+import Modal from 'src/views/master/rightFitDept/departmentDetail'
 
 const Tables = () => {
   const [data, setData] = React.useState('')
   const dispatch = useDispatch()
   const [id, setId] = React.useState(null)
   const token = useSelector((state) => state.accessToken)
-  // const orgId = useSelector((state) => state.orgId)
+  const orgId = useSelector((state) => state.orgId)
 
   const columns = [
-    { name: 'Company Name', selector: (row) => row?.companyName, sortable: true },
-    // { name: 'SMTP Host', selector: (row) => row?.smtpHost, sortable: true },
-    // { name: 'SMTP Port', selector: (row) => row?.smtpPort, sortable: true },
-    { name: 'SMTP UserName', selector: (row) => row?.smtpUserName, sortable: true },
-    // { name: 'SMS Sender', selector: (row) => row?.smsSender, sortable: true },
+    { name: 'Organisation Name', selector: (row) => row?.orgName, sortable: true },
+    { name: 'Department name', selector: (row) => row?.deptName, sortable: true },
+    { name: 'Status', selector: (row) => row?.status, sortable: true },
     { name: 'Create Date', selector: (row) => row?.createDate.split(' ')[0], sortable: true },
     {
-      name: 'Email From',
-      selector: (row) => row.emailFrom,
-      sortable: false,
-    },
-    {
       name: 'Edit',
-      selector: (row) => row.id,
-      cell: (row) => <Modal orgId={row?.id} />,
+      selector: (row) => row.deptId,
+      cell: (row) => <Modal deptId={row?.deptId} orgId={row?.orgId} />,
       sortable: false,
     },
   ]
@@ -58,10 +53,23 @@ const Tables = () => {
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
-              <strong>System Setting List</strong>
+              <strong style={{background:"212f56", color: "#fff"}}>Department List</strong>
             </CCardHeader>
             <CCardBody>
-              <DataTableCustom columns={columns} data={data}></DataTableCustom>
+              <DataTableExtensions columns={columns} data={data}>
+                <DataTable
+                  // title="Globe"
+                  highlightOnHover
+                  pagination
+                  exportHeaders={true}
+                  paginationPerPage={5}
+                  paginationRowsPerPageOptions={[5, 15, 25, 50]}
+                  paginationComponentOptions={{
+                    rowsPerPageText: 'Records per page',
+                    rangeSeparatorText: 'out of',
+                  }}
+                />
+              </DataTableExtensions>
             </CCardBody>
           </CCard>
         </CCol>

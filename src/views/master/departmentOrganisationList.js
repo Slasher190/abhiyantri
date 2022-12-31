@@ -8,6 +8,7 @@ import 'react-data-table-component-extensions/dist/index.css'
 import { useDispatch, useSelector } from 'react-redux'
 import Modal from 'src/views/master/rightFitDept/departmentDetail'
 import axios from 'src/api/axios'
+import DataTableCustom from 'src/constants/dataTableCustum'
 
 const Tables = () => {
   const [data, setData] = React.useState('')
@@ -59,20 +60,7 @@ const Tables = () => {
               <strong>Department List</strong>
             </CCardHeader>
             <CCardBody>
-              <DataTableExtensions columns={columns} data={data}>
-                <DataTable
-                  // title="Globe"
-                  highlightOnHover
-                  pagination
-                  exportHeaders={true}
-                  paginationPerPage={5}
-                  paginationRowsPerPageOptions={[5, 15, 25, 50]}
-                  paginationComponentOptions={{
-                    rowsPerPageText: 'Records per page',
-                    rangeSeparatorText: 'out of',
-                  }}
-                />
-              </DataTableExtensions>
+              <DataTableCustom columns={columns} data={data}></DataTableCustom>
             </CCardBody>
           </CCard>
         </CCol>

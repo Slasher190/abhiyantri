@@ -58,15 +58,3 @@ export const systemMaster = Yup.object().shape({
   smsSender: Yup.string().required('Please fill your sender address'),
   smtpHost: Yup.string().required('Cannot be empty'),
 })
-
-// {
-//   "id": "1",
-//   "companyName": "Abhiyantriki",
-//   "smtpHost": "smtp.gmail.com",
-//   "smtpPort": "587",
-//   "smtpUserName": "ashishparashar10@gmail.com",
-//   "smtpPassword": "psfyb12@hvubmusjfqo",
-//   "emailFrom": "ashishparashar10@gmail.com",
-//   "createBy": "deepakP",
-//   "smsSender": "sytbpl"
-// }
