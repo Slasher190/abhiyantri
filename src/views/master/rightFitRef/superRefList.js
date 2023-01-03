@@ -3,33 +3,32 @@ import React from 'react'
 import axios from 'src/api/axios'
 import { CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
 // import App from 'src/components/Export/exportToPdf'
-import DataTableCustom from 'src/constants/dataTableCustum'
+import DataTable from 'react-data-table-component'
+import DataTableExtensions from 'react-data-table-component-extensions'
+import 'react-data-table-component-extensions/dist/index.css'
 import { useDispatch, useSelector } from 'react-redux'
-import Modal from './systemSettingDetail'
+import Modal from 'src/views/master/rightFitRef/refDetail'
+import DataTableCustom from 'src/constants/dataTableCustum'
 
 const Tables = () => {
-  const [data, setData] = React.useState()
+  const [data, setData] = React.useState('')
   const dispatch = useDispatch()
   const [id, setId] = React.useState(null)
   const token = useSelector((state) => state.accessToken)
-  // const orgId = useSelector((state) => state.orgId)
+  const orgId = useSelector((state) => state.orgId)
 
   const columns = [
-    // { name: 'Company Name', selector: (row) => row?.companyName, sortable: true },
-    // { name: 'SMTP Host', selector: (row) => row?.smtpHost, sortable: true },
-    // { name: 'SMTP Port', selector: (row) => row?.smtpPort, sortable: true },
-    { name: 'SMTP UserName', selector: (row) => row?.smtpUserName, sortable: true },
-    // { name: 'SMS Sender', selector: (row) => row?.smsSender, sortable: true },
-    { name: 'Create Date', selector: (row) => row?.createDate.split(' ')[0], sortable: true },
-    {
-      name: 'Email From',
-      selector: (row) => row.emailFrom,
-      sortable: false,
-    },
+    // { name: 'Organisation Name', selector: (row) => row?.orgName, sortable: true },
+    { name: 'Ref Type', selector: (row) => row?.refType, sortable: true },
+    { name: 'Ref Val1', selector: (row) => row?.refVal1, sortable: true },
+    { name: 'Ref Val2', selector: (row) => row?.refVal2, sortable: true },
+    { name: 'Ref Desc', selector: (row) => row?.refDesc, sortable: true },
+    { name: 'Ref Status', selector: (row) => row?.refStatus, sortable: true },
+    { name: 'Create Date', selector: (row) => row?.refCreatDate, sortable: true },
     {
       name: 'Edit',
-      selector: (row) => row.id,
-      cell: (row) => <Modal orgId={row?.id} />,
+      selector: (row) => row.refId,
+      cell: (row) => <Modal refId={row?.refId} refBool={true} />,
       sortable: false,
     },
   ]
@@ -37,7 +36,7 @@ const Tables = () => {
     // console.log(token, 'Im tokn')
     try {
       const getData = async () => {
-        const res = await axios.get('/rightFitSystem/getSystemSettingList', {
+        const res = await axios.get(`/rightFitRef/getRefCodeMasList`, {
           headers: {
             authorization: `Bearer ${token}`,
           },
@@ -58,7 +57,9 @@ const Tables = () => {
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
-              <strong>System Setting List</strong>
+              <strong style={{ background: '212f56', color: '#fff' }}>
+                Refferal Code Master List
+              </strong>
             </CCardHeader>
             <CCardBody>
               <DataTableCustom columns={columns} data={data}></DataTableCustom>

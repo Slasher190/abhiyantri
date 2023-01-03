@@ -1,6 +1,7 @@
 import DataTable, { createTheme } from 'react-data-table-component'
 import DataTableExtensions from 'react-data-table-component-extensions'
-import 'react-data-table-component-extensions/dist/index.css'
+// import 'react-data-table-component-extensions/dist/index.css'
+import '../scss/dataTable.css'
 import { makeStyles } from '@material-ui/core/styles'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import React from 'react'

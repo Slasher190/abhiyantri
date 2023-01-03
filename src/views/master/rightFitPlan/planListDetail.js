@@ -154,7 +154,7 @@ const Modal = (props) => {
     <>
       <EditIcon color="disabled" sx={{ m: 0 }} onClick={() => setVisible(!visible)} />
       <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
-        <CModalHeader>
+        <CModalHeader style={{ backgroundColor: '#212f56', color: "white" }}>
           <CModalTitle>Plan Name</CModalTitle>
         </CModalHeader>
         <CModalBody>

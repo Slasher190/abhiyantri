@@ -132,6 +132,11 @@ const _nav = [
             name: 'Ref List',
             to: '/master/listRef',
           },
+          {
+            component: CNavItem,
+            name: 'Super Ref List',
+            to: '/master/superListRef',
+          },
         ],
       },
       {

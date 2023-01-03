@@ -29,15 +29,15 @@ import { CAlert } from '@coreui/react'
 import { Icon } from '@chakra-ui/react'
 import EditIcon from '@mui/icons-material/Edit'
 import Button from 'src/constants/button'
-// const initialValues = {
-//   companyName: '',
-//   smtpHost: '',
-//   smtpPort: '',
-//   smtpUserName: '',
-//   smtpPassword: '',
-//   emailFrom: '',
-//   smsSender: '',
-// }
+const initialValues = {
+  companyName: '',
+  smtpHost: '',
+  smtpPort: '',
+  smtpUserName: '',
+  smtpPassword: '',
+  emailFrom: '',
+  smsSender: '',
+}
 const Form = (props) => {
   const [validated, setValidated] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
@@ -47,15 +47,7 @@ const Form = (props) => {
   // const [initData, setInitData] = React.useState(initialValues)
   const token = useSelector((state) => state.accessToken)
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
-    initialValues: {
-      companyName: data?.companyName || '',
-      smtpHost: data?.smtpHost || '',
-      smtpPort: data?.smtpPort || '',
-      smtpUserName: data?.smtpUserName || '',
-      smtpPassword: data?.smtpPassword || '',
-      emailFrom: data?.emailFrom || '',
-      smsSender: data?.smsSender || '',
-    },
+    initialValues,
     validationSchema: systemMaster,
     onSubmit: (values, action) => {
       console.log(values, ' ...formik')

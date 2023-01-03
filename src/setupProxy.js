@@ -108,6 +108,13 @@ module.exports = function (app) {
       changeOrigin: true,
     }),
   )
+  app.use(
+    '/rightFitRef/getRefCodeMasList',
+    createProxyMiddleware({
+      target: BASE_ADDRESS,
+      changeOrigin: true,
+    }),
+  )
   //
   app.use(
     '/rightFitRole/saveRoleMaster',

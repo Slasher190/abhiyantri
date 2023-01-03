@@ -7,7 +7,8 @@ import DataTable from 'react-data-table-component'
 import DataTableExtensions from 'react-data-table-component-extensions'
 import 'react-data-table-component-extensions/dist/index.css'
 import { useDispatch, useSelector } from 'react-redux'
-import Modal from 'src/views/master/rightFitDept/departmentDetail'
+import Modal from 'src/views/master/rightFitRef/refDetail'
+import DataTableCustom from 'src/constants/dataTableCustum'
 
 const Tables = () => {
   const [data, setData] = React.useState('')
@@ -18,13 +19,16 @@ const Tables = () => {
 
   const columns = [
     { name: 'Organisation Name', selector: (row) => row?.orgName, sortable: true },
-    { name: 'Department name', selector: (row) => row?.deptName, sortable: true },
-    { name: 'Status', selector: (row) => row?.status, sortable: true },
-    { name: 'Create Date', selector: (row) => row?.createDate.split(' ')[0], sortable: true },
+    { name: 'Ref Type', selector: (row) => row?.refType, sortable: true },
+    { name: 'Ref Val1', selector: (row) => row?.refVal1, sortable: true },
+    { name: 'Ref Val2', selector: (row) => row?.refVal2, sortable: true },
+    { name: 'Ref Desc', selector: (row) => row?.refDesc, sortable: true },
+    { name: 'Ref Status', selector: (row) => row?.refStatus, sortable: true },
+    { name: 'Create Date', selector: (row) => row?.refCreatDate, sortable: true },
     {
       name: 'Edit',
-      selector: (row) => row.deptId,
-      cell: (row) => <Modal deptId={row?.deptId} orgId={row?.orgId} />,
+      selector: (row) => row.refId,
+      cell: (row) => <Modal refId={row?.refId} />,
       sortable: false,
     },
   ]
@@ -32,7 +36,7 @@ const Tables = () => {
     // console.log(token, 'Im tokn')
     try {
       const getData = async () => {
-        const res = await axios.get('/rightFitSystem/getSystemSettingList', {
+        const res = await axios.get(`rightFitRef/getRefCodeMasListByOrg?orgId=${parseInt(orgId)}`, {
           headers: {
             authorization: `Bearer ${token}`,
           },
@@ -56,20 +60,7 @@ const Tables = () => {
               <strong style={{ background: '212f56', color: '#fff' }}>Department List</strong>
             </CCardHeader>
             <CCardBody>
-              <DataTableExtensions columns={columns} data={data}>
-                <DataTable
-                  // title="Globe"
-                  highlightOnHover
-                  pagination
-                  exportHeaders={true}
-                  paginationPerPage={5}
-                  paginationRowsPerPageOptions={[5, 15, 25, 50]}
-                  paginationComponentOptions={{
-                    rowsPerPageText: 'Records per page',
-                    rangeSeparatorText: 'out of',
-                  }}
-                />
-              </DataTableExtensions>
+              <DataTableCustom columns={columns} data={data}></DataTableCustom>
             </CCardBody>
           </CCard>
         </CCol>

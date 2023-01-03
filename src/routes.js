@@ -34,6 +34,7 @@ const addPlan = React.lazy(() => import('./views/master/rightFitPlan/addPlan'))
 //Ref
 const listRef = React.lazy(() => import('./views/master/rightFitRef/refList'))
 const addRef = React.lazy(() => import('./views/master/rightFitRef/addRef'))
+const superRefList = React.lazy(() => import('./views/master/rightFitRef/superRefList'))
 
 //Role
 const listRole = React.lazy(() => import('./views/master/rightFitRole/roleList'))
@@ -64,6 +65,7 @@ const routes = [
   { path: '/master/addPlan', name: 'Add Plan', element: addPlan },
 
   { path: '/master/listRef', name: 'Ref List', element: listRef },
+  { path: '/master/superListRef', name: 'Ref List', element: superRefList },
   { path: '/master/addRef', name: 'Add Ref', element: addRef },
 
   { path: '/master/addRole', name: 'Add Role', element: addRole },

@@ -72,3 +72,83 @@ export const roleMaster = Yup.object().shape({
     .max(200, 'Must not be more than 200 characters')
     .required('Cannot be Empty'),
 })
+
+export const refMaster = Yup.object().shape({
+  orgName: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+  refVal1: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+  refVal2: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+  refDesc: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+  refType: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+})
+
+export const refMasterUpdate = Yup.object().shape({
+  orgName: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+  refVal1: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+  refVal2: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+  refDesc: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+  refType: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+  refOrder: Yup.number()
+    .min(1, 'Must be greater or equal to 1')
+    .max(999, 'Must be less or equal to 999')
+    .required('Please enter the Reference order number'),
+})
+export const superRefMasterUpdate = Yup.object().shape({
+  refVal1: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+  refVal2: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+  refDesc: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+  refType: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+  refOrder: Yup.number()
+    .min(1, 'Must be greater or equal to 1')
+    .max(999, 'Must be less or equal to 999')
+    .required('Please enter the Reference order number'),
+})
+// {
+//   "refType": "Authorization Label",
+//   "refVal1": "label 2",
+//   "refVal2": null,
+//   "refDesc": "for authorization labels",
+//   "orgId": "1",
+//   "orgName": null,
+// }
