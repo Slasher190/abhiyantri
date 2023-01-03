@@ -21,36 +21,38 @@ import { useSelector } from 'react-redux'
 // import axios from 'axios'
 import axios from 'src/api/axios'
 import Wrapper from 'src/scss/_registration'
-import { useFormik } from 'formik'
-import { departmentMaster } from 'src/constants/schemaValidation'
+import { Formik, useFormik } from 'formik'
+import { planName } from 'src/constants/schemaValidation'
 import { CAlert } from '@coreui/react'
 import { Wrap } from '@chakra-ui/react'
+import Button from 'src/constants/button'
 /////////////////////////////////////////////////////////////////API INTEGRATION/////////////////////////////
 const initialValues = {
-  deptName: '',
-  orgId: '',
+  planName: '',
 }
 
 const Validation = () => {
   const token = useSelector((state) => state.accessToken)
+  const [loading, setLoading] = useState(false)
   const orgId = useSelector((state) => state.orgId)
   const [Status, setStatus] = useState('')
   const [message, setMessage] = useState('')
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues,
-    validationSchema: departmentMaster,
+    validationSchema: planName,
     onSubmit: (values, action) => {
       console.log(values, ' ...formik ewrt')
       // LoginRequest(values)
+      setLoading(true)
       saveData(values)
+      action.resetForm()
     },
   })
   const saveData = async (Data) => {
     // console.log(' chal gya yanha tak ...', data)
     console.log(' chal gya yanha tak ...', Data)
     const data = JSON.stringify({
-      orgId: orgId,
-      deptName: Data?.deptName,
+      planName: Data?.planName,
     })
     try {
       const res = await axios.post('/rightFitPlan/savePlanMaster', data, {
@@ -66,6 +68,7 @@ const Validation = () => {
         setStatus('SUCCESS')
         setMessage(res.data.reqMessage)
       }
+      setLoading(false)
     } catch (error) {
       console.log('Kuch toh gadbad hai ...', error)
     }
@@ -94,26 +97,27 @@ const Validation = () => {
               <DocsExample href="forms/validation#server-side">
                 <CForm className="row g-3 needs-validation" onSubmit={handleSubmit}>
                   <CCol md={4}>
-                    <CFormLabel htmlFor="validationServer01">Department Name</CFormLabel>
+                    <CFormLabel htmlFor="validationServer01">Plan Name</CFormLabel>
                     <CFormInput
                       type="text"
                       id="validationServer01"
-                      value={values.deptName}
+                      value={values.planName}
                       // defaultValue="Mark"
-                      name="deptName"
+                      name="planName"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       // valid
                       // required
                     />
-                    {errors.deptName && touched.deptName ? (
-                      <p className="form-error">*{errors.deptName}</p>
+                    {errors.planName && touched.planName ? (
+                      <p className="form-error">*{errors.planName}</p>
                     ) : null}
                   </CCol>
                   <CCol xs={12}>
-                    <CButton color="primary" type="submit">
+                    {/* <CButton color="primary" type="submit">
                       Submit form
-                    </CButton>
+                    </CButton> */}
+                    <Button text="Submit Plan" load={loading} />
                   </CCol>
                 </CForm>
               </DocsExample>

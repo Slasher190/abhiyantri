@@ -49,6 +49,7 @@ const Form = (props) => {
       console.log(values, ' ...formik')
       // LoginRequest(values)
       saveData(values)
+      action.resetForm()
     },
   })
   const saveData = async (Data) => {

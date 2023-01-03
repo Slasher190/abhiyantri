@@ -24,6 +24,7 @@ import Wrapper from 'src/scss/_registration'
 import { useFormik } from 'formik'
 import { organisationMaster } from 'src/constants/schemaValidation'
 import { CAlert } from '@coreui/react'
+import Button from 'src/constants/button'
 import { Wrap } from '@chakra-ui/react'
 /////////////////////////////////////////////////////////////////API INTEGRATION/////////////////////////////
 const initialValues = {
@@ -35,6 +36,7 @@ const initialValues = {
 const Validation = () => {
   const token = useSelector((state) => state.accessToken)
   const [planId, setPlanId] = useState({})
+  const [loading, setLoading] = useState(false)
   const [Status, setStatus] = useState('')
   const [message, setMessage] = useState('')
   const [formData, setFormData] = useState(null)
@@ -44,7 +46,9 @@ const Validation = () => {
     onSubmit: (values, action) => {
       console.log(values, ' ...formik')
       // LoginRequest(values)
+      setLoading(true)
       saveData(values)
+      action.resetForm()
     },
   })
   const saveData = async (Data) => {
@@ -69,6 +73,7 @@ const Validation = () => {
         setStatus('SUCCESS')
         setMessage(res.data.reqMessage)
       }
+      setLoading(false)
     } catch (error) {
       console.log('Kuch toh gadbad hai ...', error)
     }
@@ -192,9 +197,10 @@ const Validation = () => {
                     {/* <CFormFeedback invalid>Please provide a valid city.</CFormFeedback> */}
                   </CCol>
                   <CCol xs={12}>
-                    <CButton color="primary" type="submit">
+                    {/* <CButton color="primary" type="submit">
                       Submit form
-                    </CButton>
+                    </CButton> */}
+                    <Button text="Add Organisation" load={loading} />
                   </CCol>
                 </CForm>
               </DocsExample>

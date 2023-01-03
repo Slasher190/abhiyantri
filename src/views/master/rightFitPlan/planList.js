@@ -7,7 +7,7 @@ import DataTable from 'react-data-table-component'
 import DataTableExtensions from 'react-data-table-component-extensions'
 import 'react-data-table-component-extensions/dist/index.css'
 import { useDispatch, useSelector } from 'react-redux'
-import Modal from 'src/views/master/rightFitDept/departmentDetail'
+import Modal from 'src/views/master/rightFitPlan/planListDetail'
 import DataTableCustom from 'src/constants/dataTableCustum'
 const Tables = () => {
   const [data, setData] = React.useState('')
@@ -29,6 +29,9 @@ const Tables = () => {
   ]
   React.useEffect(() => {
     // console.log(token, 'Im tokn')
+    // const interval = setInterval(() => {
+    //   console.log('This will run every 10 second!')
+    // }, 10000)
     try {
       const getData = async () => {
         const res = await axios.get('/rightFitPlan/getPlanMasterList', {
@@ -43,6 +46,7 @@ const Tables = () => {
     } catch (error) {
       console.log('thak geaa maai ...', error)
     }
+    // return () => clearInterval(interval)
   }, [])
 
   return (
@@ -52,7 +56,7 @@ const Tables = () => {
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
-              <strong style={{ background: '212f56', color: '#fff' }}>Department List</strong>
+              <strong style={{ background: '212f56', color: '#fff' }}>Plan List</strong>
             </CCardHeader>
             <CCardBody>
               <DataTableCustom columns={columns} data={data}></DataTableCustom>

@@ -59,10 +59,13 @@ const routes = [
   },
   { path: '/master/systemSettingList', name: 'System Setting List', element: systemSettingList },
   { path: '/master/addSystemSetting', name: 'Add System Setting', element: addSystemSetting },
+
   { path: '/master/listPlan', name: 'Plan List', element: listPlan },
   { path: '/master/addPlan', name: 'Add Plan', element: addPlan },
+
   { path: '/master/listRef', name: 'Ref List', element: listRef },
   { path: '/master/addRef', name: 'Add Ref', element: addRef },
+
   { path: '/master/addRole', name: 'Add Role', element: addRole },
   { path: '/master/listRole', name: 'Role List', element: listRole },
 ]

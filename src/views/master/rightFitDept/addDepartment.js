@@ -46,6 +46,7 @@ const Validation = () => {
       // LoginRequest(values)
       setLoading(true)
       saveData(values)
+      action.resetForm()
     },
   })
   const saveData = async (Data) => {

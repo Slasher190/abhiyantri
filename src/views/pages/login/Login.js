@@ -35,14 +35,14 @@ const Registration = () => {
     initialValues,
     validationSchema: signInSchema,
     onSubmit: (values, action) => {
-      // setLoading(true)
+      setLoading(true)
       LoginRequest(values)
     },
   })
   const LoginRequest = async (login) => {
     console.log(login, ' credential')
     try {
-      setLoading(true)
+      // setLoading(true)
       const response = await axios.post(
         `/rightFitLogin/validateLogin?username=${login.email}&password=${login.password}`,
       )
@@ -56,6 +56,7 @@ const Registration = () => {
   const handleSubmissionUser = (data) => {
     if (data?.reqResponse === 'FAIL') {
       setError1(data?.reqMessage)
+      setLoading(false)
       setUser('')
       console.log(error1)
       setIsAuthenticated(false)

@@ -22,12 +22,33 @@ import { useSelector } from 'react-redux'
 import axios from 'src/api/axios'
 import Wrapper from 'src/scss/_registration'
 import { useFormik } from 'formik'
-import { departmentMaster } from 'src/constants/schemaValidation'
+import { roleMaster } from 'src/constants/schemaValidation'
 import { CAlert } from '@coreui/react'
 import { Wrap } from '@chakra-ui/react'
+import Button from 'src/constants/button'
 /////////////////////////////////////////////////////////////////API INTEGRATION/////////////////////////////
+// "roleId": "1",
+// "roleName": "Super",
+// "roleStatus": "Active",
+// "createBy": "deepak",
+// "createDt": "01-Dec-2022",
+// "lastUpdateBy": null,
+// "lastUpdateDt": "02-Jan-2023",
+// "selectAll": null,
+// "orgId": "1",
+// "orgName": "svaewevgwe",
+// "reqResponse": null,
+// "reqMessage": null,
+// "subRoleMaster": null
+
+// {
+//   "roleName": "Hulk __",
+//   "roleStatus": "Active",
+//   "orgId": "1"
+// }
+
 const initialValues = {
-  deptName: '',
+  roleName: '',
   orgId: '',
 }
 
@@ -35,14 +56,17 @@ const Validation = () => {
   const token = useSelector((state) => state.accessToken)
   const orgId = useSelector((state) => state.orgId)
   const [Status, setStatus] = useState('')
+  const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues,
-    validationSchema: departmentMaster,
+    validationSchema: roleMaster,
     onSubmit: (values, action) => {
       console.log(values, ' ...formik ewrt')
       // LoginRequest(values)
+      setLoading(true)
       saveData(values)
+      action.resetForm()
     },
   })
   const saveData = async (Data) => {
@@ -50,10 +74,10 @@ const Validation = () => {
     console.log(' chal gya yanha tak ...', Data)
     const data = JSON.stringify({
       orgId: orgId,
-      deptName: Data?.deptName,
+      roleName: Data?.roleName,
     })
     try {
-      const res = await axios.post('/rightFitDept/saveDeptMaster', data, {
+      const res = await axios.post(`/rightFitRole/saveRoleMaster?orgId=${parseInt(orgId)}`, data, {
         headers: {
           authorization: `Bearer ${token}`,
           'content-Type': 'application/json',
@@ -62,15 +86,17 @@ const Validation = () => {
       console.log(res.data, ' ...response')
       if (res.data.reqResponse === 'FAILED') {
         setStatus('FAILED')
+        setMessage(res.data.reqMessage)
       } else if (res.data.reqResponse === 'SUCCESS') {
         setStatus('SUCCESS')
-        setMessage(res.data.reqMessage)
       }
+      setLoading(false)
     } catch (error) {
       console.log('Kuch toh gadbad hai ...', error)
     }
   }
   // console.log(planId, ' heree', 'dhdgli   fgivi')
+  // console.log(message, 'kdjhkdh')
   //////////////////////////////////////////////////////////////////////////////////
   return (
     <Wrapper>
@@ -82,7 +108,7 @@ const Validation = () => {
         ) : null}
         {Status === 'FAILED' ? (
           <CAlert color="danger" dismissible>
-            User Already Exist {message}
+            {message}
           </CAlert>
         ) : null}
         <CCol xs={12}>
@@ -94,26 +120,27 @@ const Validation = () => {
               <DocsExample href="forms/validation#server-side">
                 <CForm className="row g-3 needs-validation" onSubmit={handleSubmit}>
                   <CCol md={4}>
-                    <CFormLabel htmlFor="validationServer01">Department Name</CFormLabel>
+                    <CFormLabel htmlFor="validationServer01">Role Name</CFormLabel>
                     <CFormInput
                       type="text"
                       id="validationServer01"
-                      value={values.deptName}
+                      value={values.roleName}
                       // defaultValue="Mark"
-                      name="deptName"
+                      name="roleName"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       // valid
                       // required
                     />
-                    {errors.deptName && touched.deptName ? (
-                      <p className="form-error">*{errors.deptName}</p>
+                    {errors.roleName && touched.roleName ? (
+                      <p className="form-error">*{errors.roleName}</p>
                     ) : null}
                   </CCol>
                   <CCol xs={12}>
-                    <CButton color="primary" type="submit">
+                    {/* <CButton color="primary" type="submit">
                       Submit form
-                    </CButton>
+                    </CButton> */}
+                    <Button text="Add Role" load={loading} />
                   </CCol>
                 </CForm>
               </DocsExample>

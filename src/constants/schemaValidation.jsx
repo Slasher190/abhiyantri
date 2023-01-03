@@ -58,3 +58,17 @@ export const systemMaster = Yup.object().shape({
   smsSender: Yup.string().required('Please fill your sender address'),
   smtpHost: Yup.string().required('Cannot be empty'),
 })
+
+export const planName = Yup.object().shape({
+  planName: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+})
+
+export const roleMaster = Yup.object().shape({
+  roleName: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+})

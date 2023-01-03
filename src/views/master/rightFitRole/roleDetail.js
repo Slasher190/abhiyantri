@@ -24,44 +24,48 @@ import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 // import axios from 'axios'
 import axios from 'src/api/axios'
-import { departmentMaster } from 'src/constants/schemaValidation'
+import { roleMaster } from 'src/constants/schemaValidation'
 import { CAlert } from '@coreui/react'
 import { Icon } from '@chakra-ui/react'
 import EditIcon from '@mui/icons-material/Edit'
+import Button from 'src/constants/button'
 const initialValues = {
   orgId: '',
-  orgName: '',
-  domain: '',
-  status: '',
-  planId: '',
+  roleId: '',
+  roleName: '',
+  roleStatus: '',
 }
 const Form = (props) => {
   const [validated, setValidated] = React.useState(false)
   const [data, setData] = React.useState(null)
   const [planId, setPlanId] = React.useState({})
   const [Status, setStatus] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
   const [message, setMessage] = React.useState('')
   const token = useSelector((state) => state.accessToken)
+  const orgId = useSelector((state) => state.orgId)
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues,
-    validationSchema: departmentMaster,
+    validationSchema: roleMaster,
     onSubmit: (values, action) => {
       console.log(values, ' ...formik')
       // LoginRequest(values)
+      setLoading(true)
       saveData(values)
+      action.resetForm()
     },
   })
   const saveData = async (Data) => {
     console.log(' chal gya yanha tak ... gh', Data)
     const data = JSON.stringify({
-      deptId: props?.deptId,
-      orgId: props?.orgId,
-      deptName: Data?.deptName,
-      status: Data?.status,
+      roleId: props?.roleId,
+      orgId: orgId,
+      roleName: Data?.roleName,
+      roleStatus: Data?.roleStatus,
     })
     console.log(data, ' Ye hai data')
     try {
-      const res = await axios.post('/rightFitDept/saveDeptMaster', data, {
+      const res = await axios.post(`/rightFitRole/saveRoleMaster?orgId=${parseInt(orgId)}`, data, {
         headers: {
           authorization: `Bearer ${token}`,
           'content-Type': 'application/json',
@@ -71,10 +75,11 @@ const Form = (props) => {
       console.log(res.data, ' ...response')
       if (res.data.reqResponse === 'FAILED') {
         setStatus('FAILED')
+        setMessage(res.data.reqMessage)
       } else if (res.data.reqResponse === 'SUCCESS') {
         setStatus('SUCCESS')
-        setMessage(res.data.reqMessage)
       }
+      setLoading(false)
     } catch (error) {
       console.log('Kuch toh gadbad hai ...', error)
     }
@@ -83,7 +88,7 @@ const Form = (props) => {
     try {
       const getDetail = async () => {
         const res = await axios.get(
-          `/rightFitDept/getDeptMasterDetail?id=${parseInt(props.deptId)}`,
+          `/rightFitRole/getRoleDetail?roleId=${parseInt(props.roleId)}`,
           {
             headers: {
               authorization: `Bearer ${token}`,
@@ -98,7 +103,7 @@ const Form = (props) => {
       console.log(`helloo its ${error}`)
     }
   }, [])
-  console.log(props?.deptId, ' hurray ')
+  console.log(props?.roleId, ' hurray ')
   return (
     <Wrapper>
       <CForm className="row g-3 needs-validation Wrapper-Box" onSubmit={(e) => handleSubmit(e)}>
@@ -109,7 +114,7 @@ const Form = (props) => {
         ) : null}
         {Status === 'FAILED' ? (
           <CAlert color="danger" dismissible>
-            User Already Exist {message}
+            {message}
           </CAlert>
         ) : null}
         <CCol md={4}>
@@ -118,13 +123,13 @@ const Form = (props) => {
             value={values.deptName}
             // defaultValue={data?.orgName}
             id="validationCustom01"
-            label="Department Name"
-            name="deptName"
+            label="Role Name"
+            name="roleName"
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.deptName && touched.deptName ? (
-            <p className="form-error">*{errors.deptName}</p>
+          {errors.roleName && touched.roleName ? (
+            <p className="form-error">*{errors.roleName}</p>
           ) : null}
         </CCol>
         <CCol md={3}>
@@ -132,10 +137,10 @@ const Form = (props) => {
             aria-describedby="validationCustom04Feedback"
             feedbackInvalid="Please select a valid state."
             id="validationCustom04"
-            label="Status"
-            value={values.status}
+            label="Role Status"
+            value={values.roleStatus}
             // defaultValue={data?.status}
-            name="status"
+            name="roleStatus"
             onChange={handleChange}
             onBlur={handleBlur}
           >
@@ -145,9 +150,10 @@ const Form = (props) => {
           </CFormSelect>
         </CCol>
         <CCol xs={12}>
-          <CButton className="Submitbutton" color="primary" type="submit">
+          {/* <CButton className="Submitbutton" color="primary" type="submit">
             Submit form
-          </CButton>
+          </CButton> */}
+          <Button text="Update Role" load={loading} />
         </CCol>
       </CForm>
     </Wrapper>
@@ -159,11 +165,11 @@ const Modal = (props) => {
     <>
       <EditIcon color="disabled" sx={{ m: 0 }} onClick={() => setVisible(!visible)} />
       <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
-        <CModalHeader>
-          <CModalTitle>Modal </CModalTitle>
+        <CModalHeader style={{ backgroundColor: '#212f56', color: 'white' }}>
+          <CModalTitle>Update role </CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <Form deptId={props?.deptId} orgId={props?.orgId} />
+          <Form roleId={props?.roleId} />
         </CModalBody>
       </CModal>
     </>
@@ -172,10 +178,8 @@ const Modal = (props) => {
 export default Modal
 
 Form.propTypes = {
-  deptId: PropTypes.string,
-  orgId: PropTypes.string,
+  roleId: PropTypes.string,
 }
 Modal.propTypes = {
-  deptId: PropTypes.string,
-  orgId: PropTypes.string,
+  roleId: PropTypes.string,
 }

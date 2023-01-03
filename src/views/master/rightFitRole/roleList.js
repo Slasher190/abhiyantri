@@ -7,24 +7,23 @@ import DataTable from 'react-data-table-component'
 import DataTableExtensions from 'react-data-table-component-extensions'
 import 'react-data-table-component-extensions/dist/index.css'
 import { useDispatch, useSelector } from 'react-redux'
-import Modal from 'src/views/master/rightFitDept/departmentDetail'
+import Modal from 'src/views/master/rightFitRole/roleDetail'
+import DataTableCustom from 'src/constants/dataTableCustum'
 
 const Tables = () => {
   const [data, setData] = React.useState('')
-  const dispatch = useDispatch()
-  const [id, setId] = React.useState(null)
   const token = useSelector((state) => state.accessToken)
   const orgId = useSelector((state) => state.orgId)
 
   const columns = [
     { name: 'Organisation Name', selector: (row) => row?.orgName, sortable: true },
-    { name: 'Department name', selector: (row) => row?.deptName, sortable: true },
-    { name: 'Status', selector: (row) => row?.status, sortable: true },
-    { name: 'Create Date', selector: (row) => row?.createDate.split(' ')[0], sortable: true },
+    { name: 'Role Name', selector: (row) => row?.roleName, sortable: true },
+    { name: 'Role Status', selector: (row) => row?.roleStatus, sortable: true },
+    { name: 'Create Date', selector: (row) => row?.createDt, sortable: true },
     {
       name: 'Edit',
-      selector: (row) => row.deptId,
-      cell: (row) => <Modal deptId={row?.deptId} orgId={row?.orgId} />,
+      selector: (row) => row.roleId,
+      cell: (row) => <Modal roleId={row?.roleId} />,
       sortable: false,
     },
   ]
@@ -32,7 +31,7 @@ const Tables = () => {
     // console.log(token, 'Im tokn')
     try {
       const getData = async () => {
-        const res = await axios.get('/rightFitSystem/getSystemSettingList', {
+        const res = await axios.get(`/rightFitRole/getRoleDataByOrg?orgId=${parseInt(orgId)}`, {
           headers: {
             authorization: `Bearer ${token}`,
           },
@@ -56,20 +55,7 @@ const Tables = () => {
               <strong style={{ background: '212f56', color: '#fff' }}>Department List</strong>
             </CCardHeader>
             <CCardBody>
-              <DataTableExtensions columns={columns} data={data}>
-                <DataTable
-                  // title="Globe"
-                  highlightOnHover
-                  pagination
-                  exportHeaders={true}
-                  paginationPerPage={5}
-                  paginationRowsPerPageOptions={[5, 15, 25, 50]}
-                  paginationComponentOptions={{
-                    rowsPerPageText: 'Records per page',
-                    rangeSeparatorText: 'out of',
-                  }}
-                />
-              </DataTableExtensions>
+              <DataTableCustom columns={columns} data={data}></DataTableCustom>
             </CCardBody>
           </CCard>
         </CCol>

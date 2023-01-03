@@ -1,5 +1,5 @@
 const { createProxyMiddleware } = require('http-proxy-middleware')
-const BASE_ADDRESS = 'http://localhost:8890'
+const BASE_ADDRESS = 'http://192.168.1.35:8890'
 module.exports = function (app) {
   app.use(
     '/rightFitLogin/validateLogin',
@@ -95,7 +95,7 @@ module.exports = function (app) {
     }),
   )
   app.use(
-    'rightFitRef/getRefCodeDetail',
+    '/rightFitRef/getRefCodeDetail',
     createProxyMiddleware({
       target: BASE_ADDRESS,
       changeOrigin: true,

@@ -125,7 +125,7 @@ const Form = (props) => {
     } catch (error) {
       console.log(`helloo its ${error}`)
     }
-  }, [data])
+  }, [])
   // console.log(props?.deptId, ' hurray ')
   return (
     <Wrapper>

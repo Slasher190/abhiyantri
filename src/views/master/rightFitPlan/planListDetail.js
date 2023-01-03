@@ -10,6 +10,7 @@ import {
   CFormSelect,
 } from '@coreui/react'
 import styled from 'styled-components'
+import Button from 'src/constants/button'
 import Wrapper from 'src/scss/_registration'
 import React from 'react'
 import { useFormik } from 'formik'
@@ -17,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 // import axios from 'axios'
 import axios from 'src/api/axios'
-import { departmentMaster } from 'src/constants/schemaValidation'
+import { planName } from 'src/constants/schemaValidation'
 import { CAlert } from '@coreui/react'
 import { Icon } from '@chakra-ui/react'
 import EditIcon from '@mui/icons-material/Edit'
@@ -30,16 +31,18 @@ const Form = (props) => {
   const [validated, setValidated] = React.useState(false)
   const [data, setData] = React.useState(null)
   const [planId, setPlanId] = React.useState({})
+  const [loading, setLoading] = React.useState(false)
   const [Status, setStatus] = React.useState('')
   const [message, setMessage] = React.useState('')
   const token = useSelector((state) => state.accessToken)
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues,
-    validationSchema: departmentMaster,
+    validationSchema: planName,
     onSubmit: (values, action) => {
       console.log(values, ' ...formik')
-      // LoginRequest(values)
+      setLoading(true)
       saveData(values)
+      action.resetForm()
     },
   })
   const saveData = async (Data) => {
@@ -65,6 +68,7 @@ const Form = (props) => {
         setStatus('SUCCESS')
         setMessage(res.data.reqMessage)
       }
+      setLoading(false)
     } catch (error) {
       console.log('Kuch toh gadbad hai ...', error)
     }
@@ -88,7 +92,7 @@ const Form = (props) => {
       console.log(`helloo its ${error}`)
     }
   }, [])
-  console.log(props?.deptId, ' hurray ')
+  // console.log(props?.deptId, ' hurray ')
   return (
     <Wrapper>
       <CForm className="row g-3 needs-validation Wrapper-Box" onSubmit={(e) => handleSubmit(e)}>
@@ -105,16 +109,16 @@ const Form = (props) => {
         <CCol md={4}>
           <CFormInput
             type="text"
-            value={values.deptName}
+            value={values.planName}
             // defaultValue={data?.orgName}
             id="validationCustom01"
-            label="Department Name"
-            name="deptName"
+            label="Plan Name"
+            name="planName"
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.deptName && touched.deptName ? (
-            <p className="form-error">*{errors?.deptName}</p>
+          {errors.planName && touched.planName ? (
+            <p className="form-error">*{errors?.planName}</p>
           ) : null}
         </CCol>
         <CCol md={3}>
@@ -135,9 +139,10 @@ const Form = (props) => {
           </CFormSelect>
         </CCol>
         <CCol xs={12}>
-          <CButton className="Submitbutton" color="primary" type="submit">
+          {/* <CButton className="Submitbutton" color="primary" type="submit">
             Submit form
-          </CButton>
+          </CButton> */}
+          <Button text="Update Plan" load={loading} />
         </CCol>
       </CForm>
     </Wrapper>
@@ -150,7 +155,7 @@ const Modal = (props) => {
       <EditIcon color="disabled" sx={{ m: 0 }} onClick={() => setVisible(!visible)} />
       <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader>
-          <CModalTitle>Modal </CModalTitle>
+          <CModalTitle>Plan Name</CModalTitle>
         </CModalHeader>
         <CModalBody>
           <Form planId={props?.planId} />
