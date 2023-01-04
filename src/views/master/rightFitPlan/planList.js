@@ -9,6 +9,7 @@ import 'react-data-table-component-extensions/dist/index.css'
 import { useDispatch, useSelector } from 'react-redux'
 import Modal from 'src/views/master/rightFitPlan/planListDetail'
 import MenuList from './planMenu'
+import FunctionList from './planFunctionalities'
 import DataTableCustom from 'src/constants/dataTableCustum'
 const Tables = () => {
   const [data, setData] = React.useState('')
@@ -30,13 +31,13 @@ const Tables = () => {
     {
       name: 'Menu',
       selector: (row) => row.menuId,
-      cell: (row) => <MenuList planId={row?.menuId} />,
+      cell: (row) => <MenuList planId={row?.planId} />,
       sortable: false,
     },
     {
       name: 'Functionalities',
       selector: (row) => row.planId,
-      cell: (row) => <Modal planId={row?.planId} />,
+      cell: (row) => <FunctionList planId={row?.planId} />,
       sortable: false,
     },
   ]

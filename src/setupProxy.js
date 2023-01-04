@@ -173,4 +173,18 @@ module.exports = function (app) {
       changeOrigin: true,
     }),
   )
+  app.use(
+    '/rightFitPlan/savePlanFunctionDetail',
+    createProxyMiddleware({
+      target: BASE_ADDRESS,
+      changeOrigin: true,
+    }),
+  )
+  app.use(
+    '/rightFitPlan/getPlanFunctionDetail',
+    createProxyMiddleware({
+      target: BASE_ADDRESS,
+      changeOrigin: true,
+    }),
+  )
 }

@@ -100,17 +100,6 @@ createTheme(
 const DataTableCustom = (props) => {
   const [pending, setPending] = React.useState(true)
   const [rows, setRows] = React.useState([])
-  const [selectedRows, setSelectedRows] = React.useState(false)
-  const [toggledClearRows, setToggleClearRows] = React.useState(false)
-  const [isSelectable, setIsSelectable] = React.useState(props?.selectedRow)
-  const handleChange = ({ selectedRows }) => {
-    setSelectedRows(selectedRows)
-  }
-
-  // Toggle the state so React Data Table changes to clearSelectedRows are triggered
-  const handleClearRows = () => {
-    setToggleClearRows(!toggledClearRows)
-  }
   React.useEffect(() => {
     const timeout = setTimeout(() => {
       // setRows(props?.data)
@@ -137,9 +126,6 @@ const DataTableCustom = (props) => {
         progressPending={pending}
         progressComponent={<LinearIndeterminate />}
         customStyles={customStyles}
-        selectableRows={isSelectable}
-        onSelectedRowsChange={handleChange}
-        clearSelectedRows={toggledClearRows}
       />
     </DataTableExtensions>
   )
