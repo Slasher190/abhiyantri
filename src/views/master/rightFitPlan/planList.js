@@ -8,6 +8,7 @@ import DataTableExtensions from 'react-data-table-component-extensions'
 import 'react-data-table-component-extensions/dist/index.css'
 import { useDispatch, useSelector } from 'react-redux'
 import Modal from 'src/views/master/rightFitPlan/planListDetail'
+import MenuList from './planMenu'
 import DataTableCustom from 'src/constants/dataTableCustum'
 const Tables = () => {
   const [data, setData] = React.useState('')
@@ -22,6 +23,18 @@ const Tables = () => {
     { name: 'Create Date', selector: (row) => row?.createDate?.split(' ')[0], sortable: true },
     {
       name: 'Edit',
+      selector: (row) => row.planId,
+      cell: (row) => <Modal planId={row?.planId} />,
+      sortable: false,
+    },
+    {
+      name: 'Menu',
+      selector: (row) => row.menuId,
+      cell: (row) => <MenuList planId={row?.menuId} />,
+      sortable: false,
+    },
+    {
+      name: 'Functionalities',
       selector: (row) => row.planId,
       cell: (row) => <Modal planId={row?.planId} />,
       sortable: false,

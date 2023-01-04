@@ -8,6 +8,7 @@ import React from 'react'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import PropTypes from 'prop-types'
 import { Center } from '@chakra-ui/react'
+import Checkbox from '@mui/material/Checkbox'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -99,15 +100,27 @@ createTheme(
 const DataTableCustom = (props) => {
   const [pending, setPending] = React.useState(true)
   const [rows, setRows] = React.useState([])
+  const [selectedRows, setSelectedRows] = React.useState(false)
+  const [toggledClearRows, setToggleClearRows] = React.useState(false)
+  const [isSelectable, setIsSelectable] = React.useState(props?.selectedRow)
+  const handleChange = ({ selectedRows }) => {
+    setSelectedRows(selectedRows)
+  }
+
+  // Toggle the state so React Data Table changes to clearSelectedRows are triggered
+  const handleClearRows = () => {
+    setToggleClearRows(!toggledClearRows)
+  }
   React.useEffect(() => {
     const timeout = setTimeout(() => {
-      setRows(props?.data)
+      // setRows(props?.data)
       setPending(false)
     }, 2000)
     return () => clearTimeout(timeout)
   }, [])
   return (
     <DataTableExtensions columns={props?.columns} data={props?.data}>
+      {/* {props?.selectedRow && <button onClick={handleClearRows}>Clear Selected Rows</button>} */}
       <DataTable
         // title="Globe"
         highlightOnHover
@@ -124,6 +137,9 @@ const DataTableCustom = (props) => {
         progressPending={pending}
         progressComponent={<LinearIndeterminate />}
         customStyles={customStyles}
+        selectableRows={isSelectable}
+        onSelectedRowsChange={handleChange}
+        clearSelectedRows={toggledClearRows}
       />
     </DataTableExtensions>
   )
@@ -133,6 +149,7 @@ export default DataTableCustom
 DataTableCustom.propTypes = {
   columns: PropTypes.any,
   data: PropTypes.any,
+  selectedRow: PropTypes.bool,
 }
 
 // export interface TableStyles {
