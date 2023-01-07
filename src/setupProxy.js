@@ -137,6 +137,20 @@ module.exports = function (app) {
       changeOrigin: true,
     }),
   )
+  app.use(
+    '/rightFitRole/getRoleMenuDetailList',
+    createProxyMiddleware({
+      target: BASE_ADDRESS,
+      changeOrigin: true,
+    }),
+  )
+  app.use(
+    '/rightFitRole/saveRoleMenuDetail',
+    createProxyMiddleware({
+      target: BASE_ADDRESS,
+      changeOrigin: true,
+    }),
+  )
   //
   app.use(
     '/rightFitPlan/savePlanMaster',

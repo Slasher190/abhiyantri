@@ -8,6 +8,7 @@ import DataTableExtensions from 'react-data-table-component-extensions'
 import 'react-data-table-component-extensions/dist/index.css'
 import { useDispatch, useSelector } from 'react-redux'
 import Modal from 'src/views/master/rightFitRole/roleDetail'
+import RoleMenuList from './roleMenu'
 import DataTableCustom from 'src/constants/dataTableCustum'
 
 const Tables = () => {
@@ -24,6 +25,12 @@ const Tables = () => {
       name: 'Edit',
       selector: (row) => row.roleId,
       cell: (row) => <Modal roleId={row?.roleId} />,
+      sortable: false,
+    },
+    {
+      name: 'Menu',
+      selector: (row) => row.roleId,
+      cell: (row) => <RoleMenuList roleId={row?.roleId} />,
       sortable: false,
     },
   ]

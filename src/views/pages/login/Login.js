@@ -94,6 +94,10 @@ const Registration = () => {
       })
       dispatch({
         type: 'userAuth',
+        planId: data?.planId,
+      })
+      dispatch({
+        type: 'userAuth',
         accessToken: data?.accessToken,
       })
       dispatch({
