@@ -85,7 +85,7 @@ const Modal = (props) => {
     const arr = []
     console.log(checked, ' solihfjo')
     data.map((item) => {
-      if (item.menuId.includes(checked)) {
+      if (checked?.includes(item.menuId)) {
         console.log(checked.length, ' active case')
         arr.push({
           id: 0,

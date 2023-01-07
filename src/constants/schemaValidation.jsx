@@ -144,6 +144,28 @@ export const superRefMasterUpdate = Yup.object().shape({
     .max(999, 'Must be less or equal to 999')
     .required('Please enter the Reference order number'),
 })
+export const planFunctionalities = Yup.object().shape({
+  noOfUser: Yup.number()
+    .min(1, 'Must be greater or equal to 1')
+    .max(999, 'Must be less or equal to 999')
+    .required('Please provide valid information .'),
+  noOfLeadPage: Yup.number()
+    .min(1, 'Must be greater or equal to 1')
+    .max(999, 'Must be less or equal to 999')
+    .required('Please provide valid information .'),
+  leadType: Yup.string()
+    .min(3, 'Must be more then two character')
+    .max(200, 'Must not be more than 200 characters')
+    .required('Cannot be Empty'),
+})
+
+// initialValues: {
+//   functiponId: '0',
+//   planId: props.planId,
+//   noOfUser: '',
+//   noOfLeadPage: '',
+//   leadType: '',
+// },
 // {
 //   "refType": "Authorization Label",
 //   "refVal1": "label 2",

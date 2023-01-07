@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 // import axios from 'axios'
 import axios from 'src/api/axios'
-import { planName } from 'src/constants/schemaValidation'
+import { planFunctionalities } from 'src/constants/schemaValidation'
 import { CAlert } from '@coreui/react'
 import { Icon } from '@chakra-ui/react'
 import EditIcon from '@mui/icons-material/Edit'
@@ -39,7 +39,7 @@ const Form = (props) => {
       noOfLeadPage: '',
       leadType: '',
     },
-    // validationSchema: planName,
+    validationSchema: planFunctionalities,
     onSubmit: (values, action) => {
       console.log(values, ' ...formik')
       setLoading(true)
@@ -68,9 +68,9 @@ const Form = (props) => {
       console.log(res.data, ' ...response')
       if (res.data.reqResponse === 'FAILED') {
         setStatus('FAILED')
+        setMessage(res.data.reqMessage)
       } else if (res.data.reqResponse === 'SUCCESS') {
         setStatus('SUCCESS')
-        setMessage(res.data.reqMessage)
       }
       setLoading(false)
     } catch (error) {
@@ -121,9 +121,9 @@ const Form = (props) => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {/* {errors.planName && touched.planName ? (
-            <p className="form-error">*{errors?.planName}</p>
-          ) : null} */}
+          {errors.noOfUser && touched.noOfUser ? (
+            <p className="form-error">*{errors?.noOfUser}</p>
+          ) : null}
         </CCol>
         <CCol md={4}>
           <CFormInput
@@ -136,9 +136,9 @@ const Form = (props) => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {/* {errors.planName && touched.planName ? (
-            <p className="form-error">*{errors?.planName}</p>
-          ) : null} */}
+          {errors.noOfLeadPage && touched.noOfLeadPage ? (
+            <p className="form-error">*{errors?.noOfLeadPage}</p>
+          ) : null}
         </CCol>
         <CCol md={4}>
           <CFormInput
@@ -151,9 +151,9 @@ const Form = (props) => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {/* {errors.planName && touched.planName ? (
-            <p className="form-error">*{errors?.planName}</p>
-          ) : null} */}
+          {errors.leadType && touched.leadType ? (
+            <p className="form-error">*{errors?.leadType}</p>
+          ) : null}
         </CCol>
         
         <CCol xs={12}>
