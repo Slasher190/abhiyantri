@@ -6,6 +6,7 @@ import 'react-data-table-component-extensions/dist/index.css'
 import { useDispatch, useSelector } from 'react-redux'
 import Modal from 'src/views/master/rightFitDept/departmentDetail'
 import DataTableCustom from 'src/constants/dataTableCustum'
+import DeptMenu from './deptMenu'
 
 const Tables = () => {
   const [data, setData] = React.useState()
@@ -23,6 +24,24 @@ const Tables = () => {
       name: 'Edit',
       selector: (row) => row.deptId,
       cell: (row) => <Modal deptId={row?.deptId} orgId={row?.orgId} />,
+      sortable: false,
+    },
+    {
+      name: 'Menu',
+      selector: (row) => row?.orgId,
+      cell: (row) => <DeptMenu />,
+      sortable: false,
+    },
+    {
+      name: 'Generate Lead',
+      selector: (row) => row?.deptId,
+      cell: (row) => <DeptMenu deptId={row?.deptId} />,
+      sortable: false,
+    },
+    {
+      name: 'Configuation',
+      selector: (row) => row?.deptId,
+      cell: (row) => <DeptMenu deptId={row?.deptId} />,
       sortable: false,
     },
   ]

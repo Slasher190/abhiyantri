@@ -41,14 +41,10 @@ const Modal = (props) => {
   const [visible, setVisible] = React.useState(false)
   const [data, setData] = React.useState([])
   const token = useSelector((state) => state.accessToken)
-  const planId = useSelector((state) => state.planId)
-  const roleId = useSelector((state) => state.roleId)
   const columns = [{ name: 'Plan Name', selector: (row) => row?.menuName, sortable: true }]
   const [checked, setChecked] = React.useState([])
-  const [status, setStatus] = React.useState('')
-  const [message, setMessage] = React.useState('')
-  const [loading, setLoading] = React.useState(false)
-
+  const orgId = useSelector((state) => state.orgId)
+  const planId = useSelector((state) => state.planId)
   const handleCheck = (event) => {
     var updatedList = [...checked]
     if (event.target.checked) {
@@ -73,7 +69,7 @@ const Modal = (props) => {
     try {
       const getData = async () => {
         const res = await axios.get(
-          `/rightFitRole/getRoleMenuDetailList?planId=${planId}&roleId=${roleId}`,
+          `/rightFitLeadForm/getLeadFormDetailList?orgId=${orgId}&planId=${planId}`,
           {
             headers: {
               authorization: `Bearer ${token}`,
@@ -96,8 +92,8 @@ const Modal = (props) => {
       if (checked?.includes(item.menuId)) {
         console.log(checked.length, ' active case')
         arr.push({
-          planId: planId,
-          roleId: roleId,
+          orgId: orgId,
+          planId: props.planId,
           menuId: item.menuId,
           menuName: item.menuName,
           status: 'Active',
@@ -105,8 +101,8 @@ const Modal = (props) => {
       } else {
         console.log(checked.length, ' Passive case')
         arr.push({
-          planId: planId,
-          roleId: roleId,
+          orgId: orgId,
+          planId: props.planId,
           menuId: item.menuId,
           menuName: item.menuName,
           status: 'Inactive',
@@ -117,7 +113,7 @@ const Modal = (props) => {
     const data1 = JSON.stringify(arr)
     try {
       console.log(data1, 'json file ajsjj')
-      const res = await axios.post('/rightFitRole/saveRoleMenuDetail', data1, {
+      const res = await axios.post('/rightFitLeadForm/saveLeadFormDetail', data1, {
         headers: {
           authorization: `Bearer ${token}`,
           'content-Type': 'application/json',

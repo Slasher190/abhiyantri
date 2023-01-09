@@ -40,6 +40,7 @@ import { toggleButtonClasses, Typography } from '@mui/material'
 const Modal = (props) => {
   const [visible, setVisible] = React.useState(false)
   const [data, setData] = React.useState([])
+  const [status, setStatus] = React.useState('')
   const token = useSelector((state) => state.accessToken)
   const columns = [{ name: 'Plan Name', selector: (row) => row?.menuName, sortable: true }]
   const [checked, setChecked] = React.useState([])

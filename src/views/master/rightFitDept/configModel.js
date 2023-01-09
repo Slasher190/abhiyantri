@@ -5,12 +5,18 @@ import {
   CModalHeader,
   CModalBody,
   CModalTitle,
+  CModalFooter,
   CForm,
   CFormInput,
   CFormSelect,
+  CFormCheck,
+  CFormFeedback,
+  CInputGroup,
+  CFormLabel,
+  CInputGroupText,
+  cilPencil,
 } from '@coreui/react'
 import styled from 'styled-components'
-import Button from 'src/constants/button'
 import Wrapper from 'src/scss/_registration'
 import React from 'react'
 import { useFormik } from 'formik'
@@ -18,47 +24,47 @@ import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 // import axios from 'axios'
 import axios from 'src/api/axios'
-import { planFunctionalities } from 'src/constants/schemaValidation'
+import { departmentMaster } from 'src/constants/schemaValidation'
 import { CAlert } from '@coreui/react'
 import { Icon } from '@chakra-ui/react'
 import EditIcon from '@mui/icons-material/Edit'
-
+import { useSelect } from '@mui/base'
+import DataTableCustom from 'src/constants/dataTableCustum'
+const initialValues = {
+  orgId: '',
+  orgName: '',
+  domain: '',
+  status: '',
+  planId: '',
+}
 const Form = (props) => {
   const [validated, setValidated] = React.useState(false)
   const [data, setData] = React.useState(null)
   const [planId, setPlanId] = React.useState({})
-  const [loading, setLoading] = React.useState(false)
   const [Status, setStatus] = React.useState('')
   const [message, setMessage] = React.useState('')
   const token = useSelector((state) => state.accessToken)
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
-    initialValues: {
-      functiponId: '0',
-      planId: props.planId,
-      noOfUser: '',
-      noOfLeadPage: '',
-      leadType: '',
-    },
-    validationSchema: planFunctionalities,
+    initialValues,
+    validationSchema: departmentMaster,
     onSubmit: (values, action) => {
       console.log(values, ' ...formik')
-      setLoading(true)
+      // LoginRequest(values)
       saveData(values)
       action.resetForm()
     },
   })
   const saveData = async (Data) => {
     console.log(' chal gya yanha tak ... gh', Data)
-    const data = {
-      functiponId: '0',
-      planId: props.planId,
-      noOfUser: Data?.noOfUser,
-      noOfLeadPage: Data?.noOfLeadPage,
-      leadType: Data?.leadType,
-    }
+    const data = JSON.stringify({
+      deptId: props?.deptId,
+      orgId: props?.orgId,
+      deptName: Data?.deptName,
+      status: Data?.status,
+    })
     console.log(data, ' Ye hai data')
     try {
-      const res = await axios.post('/rightFitPlan/savePlanFunctionDetail', data, {
+      const res = await axios.post('/rightFitDept/saveDeptMaster', data, {
         headers: {
           authorization: `Bearer ${token}`,
           'content-Type': 'application/json',
@@ -68,11 +74,10 @@ const Form = (props) => {
       console.log(res.data, ' ...response')
       if (res.data.reqResponse === 'FAILED') {
         setStatus('FAILED')
-        setMessage(res.data.reqMessage)
       } else if (res.data.reqResponse === 'SUCCESS') {
         setStatus('SUCCESS')
+        setMessage(res.data.reqMessage)
       }
-      setLoading(false)
     } catch (error) {
       console.log('Kuch toh gadbad hai ...', error)
     }
@@ -81,7 +86,7 @@ const Form = (props) => {
     try {
       const getDetail = async () => {
         const res = await axios.get(
-          `/rightFitPlan/getPlanFunctionDetail?id=${parseInt(props.planId)}`,
+          `/rightFitDept/getDeptMasterDetail?id=${parseInt(props.deptId)}`,
           {
             headers: {
               authorization: `Bearer ${token}`,
@@ -96,7 +101,7 @@ const Form = (props) => {
       console.log(`helloo its ${error}`)
     }
   }, [])
-  // console.log(props?.deptId, ' hurray ')
+  console.log(props?.deptId, ' hurray ')
   return (
     <Wrapper>
       <CForm className="row g-3 needs-validation Wrapper-Box" onSubmit={(e) => handleSubmit(e)}>
@@ -112,71 +117,80 @@ const Form = (props) => {
         ) : null}
         <CCol md={4}>
           <CFormInput
-            type="number"
-            value={values.noOfUser}
-            // defaultValue={data?.orgName}
-            id="validationCustom01"
-            label="Number Of User"
-            name="noOfUser"
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {errors.noOfUser && touched.noOfUser ? (
-            <p className="form-error">*{errors?.noOfUser}</p>
-          ) : null}
-        </CCol>
-        <CCol md={4}>
-          <CFormInput
-            type="number"
-            value={values.noOfLeadPage}
-            // defaultValue={data?.orgName}
-            id="validationCustom01"
-            label="noOfLeadPage"
-            name="noOfLeadPage"
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {errors.noOfLeadPage && touched.noOfLeadPage ? (
-            <p className="form-error">*{errors?.noOfLeadPage}</p>
-          ) : null}
-        </CCol>
-        <CCol md={4}>
-          <CFormInput
             type="text"
-            value={values.leadType}
+            value={values.deptName}
             // defaultValue={data?.orgName}
             id="validationCustom01"
-            label="leadType"
-            name="leadType"
+            label="Department Name"
+            name="deptName"
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.leadType && touched.leadType ? (
-            <p className="form-error">*{errors?.leadType}</p>
+          {errors.deptName && touched.deptName ? (
+            <p className="form-error">*{errors.deptName}</p>
           ) : null}
         </CCol>
-
+        <CCol md={3}>
+          <CFormSelect
+            aria-describedby="validationCustom04Feedback"
+            feedbackInvalid="Please select a valid state."
+            id="validationCustom04"
+            label="Status"
+            value={values.status}
+            // defaultValue={data?.status}
+            name="status"
+            onChange={handleChange}
+            onBlur={handleBlur}
+          >
+            <option disabled>Choose...</option>
+            <option>Active</option>
+            <option>Inactive</option>
+          </CFormSelect>
+        </CCol>
         <CCol xs={12}>
-          {/* <CButton className="Submitbutton" color="primary" type="submit">
-              Submit form
-            </CButton> */}
-          <Button text="Update Functionalities" load={loading} />
+          <CButton className="Submitbutton" color="primary" type="submit">
+            Submit form
+          </CButton>
         </CCol>
       </CForm>
     </Wrapper>
   )
 }
 const Modal = (props) => {
+  const orgId = useSelector((state) => state.orgId)
+  const [data, setData] = useState([])
+  const columns = [
+    { name: 'Field Id', selector: (row) => row?.fieldId, sortable: true },
+    { name: 'Field Label', selector: (row) => row?.fieldLabel, sortable: true },
+    { name: 'Min Lenght', selector: (row) => row?.minLength, sortable: true },
+    { name: 'Max Length', selector: (row) => row?.maxLength, sortable: true },
+    { name: 'Optional', selector: (row) => row?.optional, sortable: true },
+    { name: 'Field Type', selector: (row) => row?.fieldType, sortable: true },
+    { name: 'Field Order', selector: (row) => row?.fieldOrder, sortable: true },
+  ]
   const [visible, setVisible] = React.useState(false)
+  useEffect(() => {
+    try {
+      const getList = async () => {
+        const res = await axios.get(
+          `/rightFitDept/getLeadFormDetailById?deptId=${props?.deptId}&orgId=${orgId}`,
+        )
+        setData(res?.data)
+      }
+      getList()
+    } catch (error) {
+      console.log(' and the error is ... ', error)
+    }
+  })
   return (
     <>
       <EditIcon color="disabled" sx={{ m: 0 }} onClick={() => setVisible(!visible)} />
       <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
-        <CModalHeader style={{ backgroundColor: '#212f56', color: 'white' }}>
-          <CModalTitle>Plan Name</CModalTitle>
+        <CModalHeader>
+          <CModalTitle>Modal </CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <Form planId={props?.planId} />
+          <DataTableCustom columns={columns} data={data?.leadFormDetail} key={['fieldId']} />
         </CModalBody>
       </CModal>
     </>
@@ -185,8 +199,10 @@ const Modal = (props) => {
 export default Modal
 
 Form.propTypes = {
-  planId: PropTypes.any,
+  deptId: PropTypes.string,
+  orgId: PropTypes.string,
 }
 Modal.propTypes = {
-  planId: PropTypes.any,
+  deptId: PropTypes.string,
+  orgId: PropTypes.string,
 }

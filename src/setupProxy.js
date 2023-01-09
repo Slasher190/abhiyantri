@@ -36,6 +36,7 @@ module.exports = function (app) {
       changeOrigin: true,
     }),
   )
+  //
   app.use(
     '/rightFitDept/saveDeptMaster',
     createProxyMiddleware({
@@ -59,6 +60,35 @@ module.exports = function (app) {
   )
   app.use(
     '/rightFitDept/getDeptMasterListByOrg',
+    createProxyMiddleware({
+      target: BASE_ADDRESS,
+      changeOrigin: true,
+    }),
+  )
+  app.use(
+    '/rightFitDept/getDeptMasterListByOrg',
+    createProxyMiddleware({
+      target: BASE_ADDRESS,
+      changeOrigin: true,
+    }),
+  )
+  app.use(
+    '/rightFitDept/getLeadFormDetailById',
+    createProxyMiddleware({
+      target: BASE_ADDRESS,
+      changeOrigin: true,
+    }),
+  )
+//
+  app.use(
+    '/rightFitLeadForm/saveLeadFormDetail',
+    createProxyMiddleware({
+      target: BASE_ADDRESS,
+      changeOrigin: true,
+    }),
+  )
+  app.use(
+    '/rightFitLeadForm/generateLeadFormLink',
     createProxyMiddleware({
       target: BASE_ADDRESS,
       changeOrigin: true,

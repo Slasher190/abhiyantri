@@ -126,6 +126,7 @@ const DataTableCustom = (props) => {
         progressPending={pending}
         progressComponent={<LinearIndeterminate />}
         customStyles={customStyles}
+        keyField={props?.key}
       />
     </DataTableExtensions>
   )
@@ -136,6 +137,7 @@ DataTableCustom.propTypes = {
   columns: PropTypes.any,
   data: PropTypes.any,
   selectedRow: PropTypes.bool,
+  key: PropTypes.string,
 }
 
 // export interface TableStyles {
